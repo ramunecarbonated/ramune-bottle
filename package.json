@@ -1,0 +1,28 @@
+{
+  "name": "imouto-mk2",
+  "version": "1.0.0",
+  "description": "Discord bot build on Discord.js and hosted on Heroku",
+  "main": "index.js",
+  "engines": {
+    "node": "8.x",
+    "npm": "*"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nf start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ramunecarbonated/ramune-bottle.git"
+  },
+  "author": "sasch",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ramunecarbonated/ramune-bottle/issues"
+  },
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "foreman": "3.0.0"
+  },
+  "homepage": "https://github.com/ramunecarbonated/ramune-bottle#readme"
+}
