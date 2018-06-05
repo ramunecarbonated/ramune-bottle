@@ -2,15 +2,160 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 var env = process.env;
+var request = require('request');
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+    console.log(`Logged in as ${client.user.tag}!`);
+
+    // set activity
+    client.user.setActivity('the chat, like a good imouto!', { type: 'WATCHING' })
+        .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
+        .catch(console.error);
+
+    // set avatar
+    // client.user.setAvatar(`./avatar/${getRandomInt(1, 3)}.png`)
+    //     .then(user => console.log(`New avatar set!`))
+    //     .catch(console.error);
 });
 
 client.on('message', msg => {
-  if (msg.content === 'ping') {
-    msg.reply('Pong!');
-  }
+    var cmd;
+
+    console.log(`${msg.author.id}: ${msg.content}`);
+
+    if (msg.content === 'LUCAS, TIKKIE' && msg.author.id == 77552496561631232) {
+        msg.reply('zei iemand TIKKIE!?');
+        msg.channel.send("<@!54568356115656704>, TIKKIE!");
+        setInterval(() => {
+            msg.channel.send("<@!54568356115656704>, TIKKIE!");
+        }, 120000);
+    }
+
+    if (msg.content === 'ping') {
+        msg.reply('Pong!');
+    }    
+
+    cmd = '-retro ';
+    if (msg.content.indexOf(cmd) === 0) {
+        try {
+            // parse
+            var params = parseParams(msg, 3);
+            // start typing
+            msg.channel.startTyping();
+            // send request to get the picture
+            request.post({
+                followAllRedirects: true,
+                url: 'https://m.photofunia.com/categories/all_effects/retro-wave?server=2',
+                timeout: 15000,
+                formData: {
+                    bcg: getRandomInt(1, 5),
+                    txt: getRandomInt(1, 4),
+                    text1: params[1] || "",
+                    text2: params[2] || "",
+                    text3: params[3] || ""
+                }
+            }, function optionalCallback(err, response, body) {
+                // TODO: this is deprec
+                if (err) return console.error('upload failed:', err);
+                // regex to get the very first image tag.
+                var re = /src="([^"]+)"/g;
+                var results = re.exec(body);
+                // send picture
+                msg.channel.send({
+                    files: [results[1]]
+                }).then(msg.channel.stopTyping()).catch(console.error);
+            });
+        } catch(err) {
+            console.error('Error:', err);
+            msg.reply(err);
+        }
+    }
+
+    cmd = '-cake ';
+    if (msg.content.indexOf(cmd) === 0) {
+        try {
+            // parse
+            var params = parseParams(msg, 2);
+            // start typing
+            msg.channel.startTyping();
+            // send request to get the picture
+            request.post({
+                followAllRedirects: true,
+                url: 'https://m.photofunia.com/categories/all_effects/birthday-cake?server=2',
+                timeout: 15000,
+                formData: {
+                    text1: params[1] || "",
+                    text2: params[2] || "",
+                }
+            }, function optionalCallback(err, response, body) {
+                // TODO: this is deprec
+                if (err) return console.error('upload failed:', err);
+                // regex to get the very first image tag.
+                var re = /src="([^"]+)"/g;
+                var results = re.exec(body);
+                // send picture
+                msg.channel.send({
+                    files: [results[1]]
+                }).then(msg.channel.stopTyping()).catch(console.error);
+            });
+        } catch (err) {
+            console.error('Error:', err);
+            msg.reply(err);
+        }
+    }
+
+    cmd = '-neonsign ';
+    if (msg.content.indexOf(cmd) === 0) {
+        try {
+            // parse
+            var param = parseLine(msg, cmd);
+            // start typing
+            msg.channel.startTyping();
+            // send request to get the picture
+            request.post({
+                followAllRedirects: true,
+                url: 'https://m.photofunia.com/categories/all_effects/neon-sign?server=2',
+                timeout: 15000,
+                formData: {
+                    text: param,
+                    colour: "r",
+                }
+            }, function optionalCallback(err, response, body) {
+                // TODO: this is deprec
+                if (err) return console.error('upload failed:', err);
+                // regex to get the very first image tag.
+                var re = /src="([^"]+)"/g;
+                var results = re.exec(body);
+                // send picture
+                msg.channel.send({
+                    files: [results[1]]
+                }).then(msg.channel.stopTyping()).catch(console.error);
+            });
+        } catch (err) {
+            console.error('Error:', err);
+            msg.reply(err);
+        }
+    }
 });
 
 client.login( env.TOKEN );
+
+function getRandomInt(minimum, maximum) {
+    return Math.round( Math.random() * (maximum - minimum) + minimum);
+}
+
+function parseParams(msg, max, min = 1) {
+    var params = msg.content.split(' ');
+    var count = params.length-1;
+    if (count < min || count > max) throw `Invalid arguments, please give me at least ${min} and a maximum of ${max}.`;
+
+    return params;
+}
+
+function parseLine(msg, remove, max = 30, min = 1) {
+    var param = msg.content.replace(remove, "");
+    var length = param.length;
+    if (length < min || length > max) throw `Invalid argument, please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
+
+    return param;
+}
