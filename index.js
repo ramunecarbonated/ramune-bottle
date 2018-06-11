@@ -10,7 +10,13 @@ client.on('ready', () => {
     // we logged in!
     console.log(`Logged in as ${client.user.tag}!`);
     // set activity
-    client.user.setActivity('the chat', { type: 'WATCHING' }).catch(console.error);
+    client.user.setActivity('the chat', { type: 'WATCHING' })
+        .then(console.log(`Set activity.`))
+        .catch(console.error);
+
+    client.users.get(config.sasch).send('Logged in.')
+        .then(console.log(`Sending 'logged in' message to ${config.sasch}.`))
+        .catch(console.error);
 });
 
 client.on('message', msg => {
