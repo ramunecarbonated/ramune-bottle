@@ -4,9 +4,8 @@ var env = process.env;
 
 var config = require('./config.js');
 
-client.login( env.TOKEN );
+client.login( env.TOKEN )
+    .then(console.log(client => `Logged in as ${client.user.tag}`))
+    .catch(console.error);
 
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}!`)
-    return 'Discord Login success!\n';
-});
+console.log(`Done`);
