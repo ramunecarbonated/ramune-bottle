@@ -5,16 +5,10 @@ var env = process.env;
 var request = require('request');
 
 client.on('ready', () => {
+    // we logged in!
     console.log(`Logged in as ${client.user.tag}!`);
-
     // set activity
-    client.user.setActivity('the chat', { type: 'WATCHING' })
-        .catch(console.error);
-
-    // set avatar
-    // client.user.setAvatar(`./avatar/${getRandomInt(1, 3)}.png`)
-    //     .then(user => console.log(`New avatar set!`))
-    //     .catch(console.error);
+    client.user.setActivity('the chat', { type: 'WATCHING' }).catch(console.error);
 });
 
 client.on('message', msg => {
@@ -22,7 +16,7 @@ client.on('message', msg => {
 
     console.log(`${msg.author.id}: ${msg.content}`);
 
-    if (msg.content === 'LUCAS, TIKKIE' && msg.author.id == 77552496561631232) {
+    if (msg.content === 'LUCAS, TIKKIE' && msg.author.id == sasch) {
         msg.reply('zei iemand TIKKIE!?');
         msg.channel.send("<@!54568356115656704>, TIKKIE!");
         setInterval(() => {
