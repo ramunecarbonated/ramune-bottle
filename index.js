@@ -51,8 +51,8 @@ client.on('message', msg => {
         }
     }
 
-    cmd = '-retro ';
-    if (msg.content.indexOf(cmd) === 0) {
+
+    if (msg.content.indexOf('-retro') === 0) {
         try {
             // parse
             var params = parseParams(msg, 3);
@@ -87,8 +87,7 @@ client.on('message', msg => {
         }
     }
 
-    cmd = '-cake ';
-    if (msg.content.indexOf(cmd) === 0) {
+    if (msg.content.indexOf('-cake') === 0) {
         try {
             // parse
             var params = parseParams(msg, 2);
@@ -120,8 +119,7 @@ client.on('message', msg => {
         }
     }
 
-    cmd = '-neonsign ';
-    if (msg.content.indexOf(cmd) === 0) {
+    if (msg.content.indexOf('-neonsign') === 0) {
         try {
             // parse
             var param = parseLine(msg, cmd);
