@@ -1,7 +1,9 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-
 var env = process.env;
+
+var config = require('./config.js');
+// var tools = require('./commands/public');
 var request = require('request');
 
 client.on('ready', () => {
