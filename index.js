@@ -159,7 +159,7 @@ function getRandomInt(minimum, maximum) {
 }
 
 function parseParams(msg, max, min = 1) {
-    var params = msg.content.split(' ');
+    var params = msg.content.split('|');
     var count = params.length-1;
     if (count < min || count > max) throw `Invalid arguments, please give me at least ${min} and a maximum of ${max}.`;
 
