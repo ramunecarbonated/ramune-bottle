@@ -26,16 +26,28 @@ client.on('message', msg => {
     if (msg.channel.type == "dm") console.log(`PM with ${msg.channel.recipient.username}#${msg.channel.recipient.discriminator}<${msg.channel.recipient.id}> | ${msg.author.username}#${msg.author.discriminator}<${msg.author.id}>: ${msg.content}`);
     else if (msg.channel.type == "text") console.log(`${msg.channel.guild.name}<#${msg.channel.name}> | ${msg.author.username}#${msg.author.discriminator}<${msg.author.id}>: ${msg.content}`);
 
-    if (msg.content === 'LUCAS, TIKKIE' && msg.author.id == sasch) {
-        msg.reply('zei iemand TIKKIE!?');
-        msg.channel.send("<@!54568356115656704>, TIKKIE!");
-        setInterval(() => {
+    // owner only
+    if (!isOwner(msg)) {
+        if (msg.content === 'LUCAS, TIKKIE') {
+            msg.reply('zei iemand TIKKIE!?');
             msg.channel.send("<@!54568356115656704>, TIKKIE!");
-        }, 120000);
-    }
+            setInterval(() => {
+                msg.channel.send("<@!54568356115656704>, TIKKIE!");
+            }, 120000);
+        }
 
-    if (msg.content === 'ping') {
-        msg.reply('Pong!');
+        // set avatar
+        if (msg.content.indexOf('-setavatar') === 0) {
+            try {
+                var url = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : parseLine(msg, '-setavatar', 256);
+                client.user.setAvatar(url)
+                    .then(user => msg.reply('New avatar set!'))
+                    .catch(console.error);
+            } catch (err) {
+                console.error('Error:', err);
+                msg.reply(err);
+            }
+        }
     }
 
     cmd = '-retro ';
