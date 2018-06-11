@@ -163,7 +163,7 @@ function parseParams(msg, max, min = 1) {
     var count = params.length-1;
     if (count < min || count > max) throw `Invalid arguments, please give me at least ${min} and a maximum of ${max}.`;
 
-    return params;
+    return params.trim();
 }
 
 function parseLine(msg, remove, max = 30, min = 1) {
@@ -171,5 +171,5 @@ function parseLine(msg, remove, max = 30, min = 1) {
     var length = param.length;
     if (length < min || length > max) throw `Invalid argument, please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
 
-    return param;
+    return param.trim();
 }
