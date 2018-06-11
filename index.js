@@ -122,7 +122,7 @@ client.on('message', msg => {
     if (msg.content.indexOf('-neonsign') === 0) {
         try {
             // parse
-            var param = parseLine(msg, cmd);
+            var param = parseLine(msg, '-neonsign');
             // start typing
             msg.channel.startTyping();
             // send request to get the picture
@@ -153,6 +153,10 @@ client.on('message', msg => {
 });
 
 client.login( env.TOKEN );
+
+function isOwner(msg) {
+    return msg.author.id == config.sasch;
+}
 
 function getRandomInt(minimum, maximum) {
     return Math.round( Math.random() * (maximum - minimum) + minimum);
