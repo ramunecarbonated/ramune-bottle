@@ -8,8 +8,7 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 
     // set activity
-    client.user.setActivity('the chat, like a good imouto!', { type: 'WATCHING' })
-        .then(presence => console.log(`Activity set to ${presence.game ? presence.game.name : 'none'}`))
+    client.user.setActivity('the chat', { type: 'WATCHING' })
         .catch(console.error);
 
     // set avatar
@@ -33,7 +32,7 @@ client.on('message', msg => {
 
     if (msg.content === 'ping') {
         msg.reply('Pong!');
-    }    
+    }
 
     cmd = '-retro ';
     if (msg.content.indexOf(cmd) === 0) {
