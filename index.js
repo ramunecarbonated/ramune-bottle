@@ -55,7 +55,7 @@ client.on('message', msg => {
     if (msg.content.indexOf('-retro') === 0) {
         try {
             // parse
-            var params = parseParams(msg, 3);
+            var params = parseParams(msg, '-retro', 3);
             // start typing
             msg.channel.startTyping();
             // send request to get the picture
@@ -66,9 +66,9 @@ client.on('message', msg => {
                 formData: {
                     bcg: getRandomInt(1, 5),
                     txt: getRandomInt(1, 4),
-                    text1: params[1] || "",
-                    text2: params[2] || "",
-                    text3: params[3] || ""
+                    text1: params[0] || "",
+                    text2: params[1] || "",
+                    text3: params[2] || ""
                 }
             }, function optionalCallback(err, response, body) {
                 // TODO: this is deprec
@@ -90,7 +90,7 @@ client.on('message', msg => {
     if (msg.content.indexOf('-cake') === 0) {
         try {
             // parse
-            var params = parseParams(msg, 2);
+            var params = parseParams(msg, '-cake', 2);
             // start typing
             msg.channel.startTyping();
             // send request to get the picture
@@ -99,8 +99,8 @@ client.on('message', msg => {
                 url: 'https://m.photofunia.com/categories/all_effects/birthday-cake?server=2',
                 timeout: 15000,
                 formData: {
-                    text1: params[1] || "",
-                    text2: params[2] || "",
+                    text1: params[0] || "",
+                    text2: params[1] || "",
                 }
             }, function optionalCallback(err, response, body) {
                 // TODO: this is deprec
@@ -162,12 +162,13 @@ function getRandomInt(minimum, maximum) {
     return Math.round( Math.random() * (maximum - minimum) + minimum);
 }
 
-function parseParams(msg, max, min = 1) {
-    var params = msg.content.split('|');
-    var count = params.length-1;
+function parseParams(msg, remove, max, min = 1) {
+    var param = msg.content.replace(remove, "");
+    var params = param.split('|');
+    var count = params.length;
     if (count < min || count > max) throw `Invalid arguments, please give me at least ${min} and a maximum of ${max}.`;
 
-    return params.trim();
+    return params.map(s => s.trim());
 }
 
 function parseLine(msg, remove, max = 30, min = 1) {
