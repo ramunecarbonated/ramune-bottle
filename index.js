@@ -28,7 +28,7 @@ client.on('message', msg => {
     else if (msg.channel.type == "text") console.log(`${msg.channel.guild.name}<#${msg.channel.name}> | ${msg.author.username}#${msg.author.discriminator}<${msg.author.id}>: ${msg.content}`);
 
     // owner only
-    if (!isOwner(msg)) {
+    if (isOwner(msg)) {
         if (msg.content === 'LUCAS, TIKKIE') {
             msg.reply('zei iemand TIKKIE!?');
             msg.channel.send("<@!54568356115656704>, TIKKIE!");
