@@ -46,6 +46,11 @@
             "text": "params"
         }
     },
+    "-noir": {
+        "postUrl": "https://m.photofunia.com/categories/all_effects/noir?server=2",
+        "data": {
+            "type": "getRandomInt(1, 4)",
+            "text": "params"
         }
     }
 }
