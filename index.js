@@ -38,7 +38,7 @@ client.on('message', msg => {
                 arr[i] = eval('(' + command.data[i] + ')');
             }
 
-            console.log(arr);
+            // console.log(arr);
 
             if (typeof command.postUrl !== 'undefined' && command.postUrl) {
                 msg.channel.startTyping();
@@ -86,7 +86,7 @@ client.on('message', msg => {
                     timeout: 5000,
                     formData: { "content": "<@!54568356115656704>, TIKKIE!" }
                 });
-            }, 20000);
+            }, 15000);
         }
 
         // set avatar
