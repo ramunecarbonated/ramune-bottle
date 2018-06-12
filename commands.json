@@ -27,7 +27,7 @@
     "-roadsign": {
         "postUrl": "https://m.photofunia.com/categories/all_effects/led-road-sign?server=2",
         "data": {
-            "text1": "params"
+            "text": "params"
         }
     },
     "-lightningletters": {
