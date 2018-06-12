@@ -42,7 +42,7 @@
             "text": "params"
         }
     },
-    "-cemetry": {
+    "-cemetery": {
         "postUrl": "https://m.photofunia.com/categories/all_effects/cemetery-gates?server=2",
         "data": {
             "text": "params"
