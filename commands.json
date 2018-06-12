@@ -40,6 +40,12 @@
         "postUrl": "https://m.photofunia.com/categories/all_effects/street-sign?server=2",
         "data": {
             "text1": "params"
+    "-cemetry": {
+        "postUrl": "https://m.photofunia.com/categories/all_effects/cemetery-gates?server=2",
+        "data": {
+            "text": "params"
+        }
+    },
         }
     }
 }
