@@ -46,7 +46,7 @@ client.on('message', msg => {
                 request.post({
                     followAllRedirects: true,
                     url: command.postUrl,
-                    timeout: 20000,
+                    timeout: 15000,
                     formData: arr
                 }, function optionalCallback(err, response, body) {
                     // TODO: this is deprec
