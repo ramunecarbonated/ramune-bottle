@@ -22,8 +22,9 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
+    var cmd = msg.content.split(' ')[0].toLowerCase();
     // ping pong
-    if (msg.content === 'ping') msg.reply('Pong!');
+    if (cmd === '-ping') msg.reply('Pong!');
 
     // logging
     if (msg.channel.type == "dm") console.log(`PM with ${msg.channel.recipient.username}#${msg.channel.recipient.discriminator}<${msg.channel.recipient.id}> | ${msg.author.username}#${msg.author.discriminator}<${msg.author.id}>: ${msg.content}`);
@@ -40,7 +41,7 @@ client.on('message', msg => {
         }
 
         // set avatar
-        if (msg.content.indexOf('-setavatar') === 0) {
+        if (cmd === '-setavatar') {
             try {
                 var url = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : parseLine(msg, '-setavatar', 256);
                 client.user.setAvatar(url)
@@ -54,7 +55,7 @@ client.on('message', msg => {
     }
 
 
-    if (msg.content.indexOf('-retro') === 0) {
+    if (cmd === '-retro') {
         try {
             // parse
             var params = parseParams(msg, '-retro', 3);
@@ -89,7 +90,7 @@ client.on('message', msg => {
         }
     }
 
-    if (msg.content.indexOf('-cake') === 0) {
+    if (cmd === '-cake') {
         try {
             // parse
             var params = parseParams(msg, '-cake', 2);
@@ -121,7 +122,7 @@ client.on('message', msg => {
         }
     }
 
-    if (msg.content.indexOf('-neonsign') === 0) {
+    if (cmd === '-neonsign') {
         try {
             // parse
             var param = parseLine(msg, '-neonsign');
