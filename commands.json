@@ -29,5 +29,11 @@
         "data": {
             "text1": "params"
         }
+    },
+    "-lightningletters": {
+        "postUrl": "https://m.photofunia.com/categories/all_effects/light-graffiti?server=2",
+        "data": {
+            "text1": "params"
+        }
     }
 }
