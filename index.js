@@ -99,7 +99,6 @@ client.on('message', msg => {
     }
 });
 
-
 function isOwner(msg) {
     return msg.author.id == config.sasch;
 }
