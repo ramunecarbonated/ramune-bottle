@@ -78,10 +78,13 @@ client.on('message', msg => {
     if (isOwner(msg)) {
         if (msg.content === 'LUCAS, TIKKIE') {
             msg.reply('zei iemand TIKKIE!?');
-            msg.channel.send("<@!54568356115656704>, TIKKIE!");
             setInterval(() => {
-                msg.channel.send("<@!54568356115656704>, TIKKIE!");
-            }, 120000);
+                request.post({
+                    url: "https://discordapp.com/api/webhooks/455707982584348673/06aQKQcxn1P-2ZASqFxjxKHd2Ca8itmcWVxIKu7T5aelMgqOaNhSdO5Y-H0cAn3Ug-Je",
+                    timeout: 5000,
+                    formData: { "content": "<@!54568356115656704>, TIKKIE!" }
+                });
+            }, 20000);
         }
 
         // set avatar
