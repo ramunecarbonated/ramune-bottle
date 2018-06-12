@@ -1,0 +1,28 @@
+{
+    "-neonsign": {
+        "postUrl": "https://m.photofunia.com/categories/all_effects/neon-sign?server=2",
+        "data": {
+            "colour" : "['y', 'r', 'p', 'v', 'b', 'g'][Math.floor(Math.random() * 6)]",
+            "text" : "params"
+        }
+    },
+    "-retro": {
+        "maxArgs": 3,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/retro-wave?server=2",
+        "data": {
+            "bcg" : "getRandomInt(1, 5)",
+            "txt" : "getRandomInt(1, 4)",
+            "text1" : "params[0]",
+            "text2" : "params[1]",
+            "text3" : "params[2]"
+        }
+    },
+    "-cake": {
+        "maxArgs": 2,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/birthday-cake?server=2",
+        "data": {
+            "text1" : "params[0]",
+            "text2" : "params[1]"
+        }
+    }
+}
