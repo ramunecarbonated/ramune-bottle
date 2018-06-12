@@ -6,6 +6,8 @@ var config = require('./config.js');
 // var tools = require('./commands/public');
 var request = require('request');
 
+client.login( env.TOKEN );
+
 client.on('ready', () => {
     // we logged in!
     console.log(`Logged in as ${client.user.tag}!`);
