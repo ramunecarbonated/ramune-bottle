@@ -3,7 +3,7 @@ const client = new Discord.Client();
 var env = process.env;
 
 var config = require('./config.js');
-// var tools = require('./commands/public');
+var commands = require('./commands.json'); // TODO: if this gets big, put in async
 var request = require('request');
 
 client.login( env.TOKEN );
@@ -22,7 +22,51 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
+    // loop through json-loaded commands first
     var cmd = msg.content.split(' ')[0].toLowerCase();
+    if (typeof commands[cmd] !== 'undefined' && commands[cmd]) {
+        var command = commands[cmd];
+        try {
+            if (typeof command.maxArgs !== 'undefined' && command.maxArgs <= 8) { // maximum of 8 args per command
+                var params = parseParams(msg, cmd, command.maxArgs);
+            } else { // if not set or more than 8 (string limit), parse as a whole
+                var params = parseLine(msg, cmd, command.maxArgs);
+            }
+
+            var arr = {};
+            for (i in command.data) {
+                arr[i] = eval('(' + command.data[i] + ')');
+            }
+
+            console.log(arr);
+
+            if (typeof command.postUrl !== 'undefined' && command.postUrl) {
+                request.post({
+                    followAllRedirects: true,
+                    url: command.postUrl,
+                    timeout: 20000,
+                    formData: arr
+                }, function optionalCallback(err, response, body) {
+                    // TODO: this is deprec
+                    if (err) return console.error('upload failed:', err);
+                    // regex to get the very first image tag.
+                    var re = /src="([^"]+)"/g;
+                    var results = re.exec(body);
+                    // send picture
+                    msg.channel.send({
+                        files: [results[1]]
+                    }).then(msg.channel.stopTyping()).catch(console.error);
+                });
+            }
+
+        } catch(err) {
+            console.error('Error:', err);
+            msg.reply(err);
+        }
+     
+        return;
+    }
+
     // ping pong
     if (cmd === '-ping') msg.reply('Pong!');
 
