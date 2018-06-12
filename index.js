@@ -41,6 +41,8 @@ client.on('message', msg => {
             console.log(arr);
 
             if (typeof command.postUrl !== 'undefined' && command.postUrl) {
+                msg.channel.startTyping();
+
                 request.post({
                     followAllRedirects: true,
                     url: command.postUrl,
