@@ -33,13 +33,15 @@
     "-lightningletters": {
         "postUrl": "https://m.photofunia.com/categories/all_effects/light-graffiti?server=2",
         "data": {
-            "text1": "params"
+            "text": "params"
         }
     },
     "-streetsign": {
         "postUrl": "https://m.photofunia.com/categories/all_effects/street-sign?server=2",
         "data": {
-            "text1": "params"
+            "text": "params"
+        }
+    },
     "-cemetry": {
         "postUrl": "https://m.photofunia.com/categories/all_effects/cemetery-gates?server=2",
         "data": {
@@ -53,4 +55,6 @@
             "text": "params"
         }
     }
+
+    
 }
