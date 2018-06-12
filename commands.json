@@ -35,5 +35,11 @@
         "data": {
             "text1": "params"
         }
+    },
+    "-streetsign": {
+        "postUrl": "https://m.photofunia.com/categories/all_effects/street-sign?server=2",
+        "data": {
+            "text1": "params"
+        }
     }
 }
