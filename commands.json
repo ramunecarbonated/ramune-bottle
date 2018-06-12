@@ -18,11 +18,12 @@
         }
     },
     "-cake": {
-        "maxArgs": 2,
+        "maxArgs": 16,
         "postUrl": "https://m.photofunia.com/categories/all_effects/birthday-cake?server=2",
         "data": {
-            "text1" : "params[0]",
-            "text2" : "params[1]"
+            "text1" : "params"
+        }
+    }
         }
     }
 }
