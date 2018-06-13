@@ -8,7 +8,8 @@
         }
     },
     "retro": {
-        "usage": "[text1 | <text2> | <text3>]",
+        "usage": "[text1 | <text2> | <text3> (very bad utf-8 support)]",
+        "filter": true,
         "maxArgs": 3,
         "postUrl": "https://m.photofunia.com/categories/all_effects/retro-wave?server=2",
         "data": {
@@ -32,6 +33,7 @@
     "roadsign": {
         "usage": "[text | <sign>]",
         "maxLength": 20,
+        "maxArgs": 2,
         "postUrl": "https://m.photofunia.com/categories/all_effects/led-road-sign?server=2",
         "data": {
             "text": "params[0] || param",
@@ -54,7 +56,8 @@
         }
     },
     "cemetery": {
-        "usage": "[text]",
+        "usage": "[text (very bad utf-8 support)]",
+        "filter": true,
         "maxLength": 20,
         "postUrl": "https://m.photofunia.com/categories/all_effects/cemetery-gates?server=2",
         "data": {

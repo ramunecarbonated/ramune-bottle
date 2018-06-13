@@ -122,9 +122,8 @@ client.on('message', msg => {
             if (usedCommand.has(msg.author.id)) throw "please wait a few seconds, I am trying to be a good imouto for others too!";
             msg.channel.startTyping();
             // get parameters
-            var params = parseParams(msg, cmd, (command.maxArgs || 32));
-            var param = parseLine(msg, cmd, ((command.maxLength || 64) * (command.maxArgs || 1)));
-
+            var params = parseParams(msg, cmd, !!c.filter, (c.maxArgs || 32));
+            var param = parseLine(msg, cmd, !!c.filter, ((c.maxLength || 64) * params.length));
             // set formData
             var arr = {};
             for (i in command.data) {
@@ -178,20 +177,27 @@ function getRandomInt(minimum, maximum) {
     return Math.round( Math.random() * (maximum - minimum) + minimum);
 }
 
-function parseParams(msg, remove, max, min = 1) {
+function parseParams(msg, remove, filter, max, min = 1) {
     var param = msg.content.replace(`${config.prefix}${remove}`, "").trim();
-    if (param.length < 2) throw `please give me at least ${min} and a maximum of ${max}.`;
-    var params = param.split('|');
+    var filteredParam = (filter == true)
+        ? param.replace(/[^\w\s]/gi, '')
+        : param;
+    if (filteredParam.length < 2) throw `please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
+    var params = filteredParam.split('|');
     var count = params.length;
     if (count < min || count > max) throw `please give me at least ${min} argument(s) and a maximum of ${max} arguments.`;
 
     return (count <= 1) ? [ null ] : params.map(s => s.trim());
 }
 
-function parseLine(msg, remove, max = 30, min = 4) {
+function parseLine(msg, remove, filter, max = 30, min = 2) {
     var param = msg.content.replace(`${config.prefix}${remove}`, "").trim();
-    var length = param.length;
+    console.log(filter);
+    var filteredParam = (filter == true)
+        ? param.replace(/[^\w\s]/gi, '')
+        : param;
+    var length = filteredParam.length;
     if (length < min || length > max) throw `please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
 
-    return param;
+    return filteredParam;
 }
