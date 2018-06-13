@@ -1,4 +1,5 @@
 const usedCommand = new Set();
+var lastAttachmentUrl = [];
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
@@ -31,6 +32,7 @@ client.on("guildDelete", guild => {
 });
 
 client.on('message', msg => {
+    if (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) lastAttachmentUrl[msg.channel.id] = msg.attachments.first().url; // log last attachment posted
     if (msg.author.bot) return; // don't respond to other bots or yourself
     if (msg.content.indexOf(config.prefix) !== 0) return; // only read when its prefix
 
@@ -123,7 +125,7 @@ client.on('message', msg => {
             if (usedCommand.has(msg.author.id)) throw "please wait a few seconds, I am trying to be a good imouto for others too!";
             msg.channel.startTyping();
             // get parameters
-            var image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : null; // url of image attachment
+            var image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : lastAttachmentUrl[msg.channel.id]; // url of image attachment
             if (typeof c.imageOnly === 'undefined' || !c.imageOnly) {
                 var params = parseParams(msg, cmd, !!c.filter, (c.maxArgs || 32));
                 var param = parseLine(msg, cmd, !!c.filter, ((c.maxLength || 64) * params.length));
