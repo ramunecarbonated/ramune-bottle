@@ -115,6 +115,19 @@ client.on('message', msg => {
     }
 });
 
+function report(err, msg = null) {
+    console.error('Error:', err);
+    // private message owner - TODO: add exception type to make sure i dont get PM'd invalid argument stuff
+    // client.users.get(config.sasch).send(err)
+    //     .then(console.log(`Sending 'logged in' message to ${config.sasch}.`))
+    //     .catch(console.error);
+    // if msg is not null, reply to the message with that error and stop typing
+    if (msg != null) {
+        msg.reply(err);
+        msg.channel.stopTyping(true);
+    }
+}
+
 function startCooldown(id) {
     // adds the user to the set so that they can't use commands
     usedCommand.add(id);
