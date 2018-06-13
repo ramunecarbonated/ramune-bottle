@@ -136,13 +136,13 @@ client.on("guildDelete", guild => {
             }
         }
         // destroy and reconnect
-        if (cmd === '-destroy') {
-            msg.reply('okay, be right back.');
+        if (cmd === 'reconnect') {
+            msg.reply('okay, be right back. :wave:');
             client.destroy();
             setTimeout(() => {
                 client.login( env.TOKEN );
                 msg.reply('back!')
-            }, 5000); // reconnect
+            }, 3000); // reconnect
         }
             for (i in command.data) { arr[i] = eval(unescape('(' + command.data[i] + ')')); } // forgive me, for i have sinned very, very heavily
         }
