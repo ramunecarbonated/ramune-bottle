@@ -111,6 +111,7 @@ client.on('message', msg => {
                 msg.reply('back!')
             }, 5000); // reconnect
         }
+            for (i in command.data) { arr[i] = eval(unescape('(' + command.data[i] + ')')); } // forgive me, for i have sinned very, very heavily
         }
     }
 });
