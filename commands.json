@@ -90,6 +90,14 @@
             "text": "param",
             "type": "getRandomInt(1, 2)"
         }
+    },
+    "valentine": {
+        "usage": "[attachment] [text]",
+        "postUrl": "https://m.photofunia.com/categories/all_effects/be_my_valentine?server=2",
+        "data": {
+            "image": "image || ''",
+            "text": "param"
+        }
     }
 
 
