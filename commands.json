@@ -131,5 +131,14 @@
             "image": "image || ''"
         }
     },
+    "fbi": {
+        "usage": "[attachment] [text]",
+        "postUrl": "https://m.photofunia.com/categories/all_effects/fbi_agent?server=2",
+        "data": {
+            "image": "image || ''",
+            "text": "param",
+            "skin": "getRandomInt(1, 2)"
+        }
+    },
     }
 }
