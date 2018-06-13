@@ -1,3 +1,4 @@
+const usedCommand = new Set();
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var env = process.env;
@@ -114,6 +115,11 @@ client.on('message', msg => {
     }
 });
 
+function startCooldown(id) {
+    // adds the user to the set so that they can't use commands
+    usedCommand.add(id);
+    setTimeout(() => { usedCommand.delete(id); }, config.cooldown); // remove after a few
+}
 function isOwner(msg) {
     return msg.author.id == config.sasch;
 }
