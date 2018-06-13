@@ -9,17 +9,12 @@ var request = require('request-promise-native');
 
 client.login( env.TOKEN );
 
+// ready to go!
 client.on('ready', () => {
-    // we logged in!
-    console.log(`Logged in as ${client.user.tag}!`);
-    // set activity
-    client.user.setActivity('the chat', { type: 'WATCHING' })
-        .then(console.log(`Set activity.`))
-        .catch(console.error);
-
-    client.users.get(config.sasch).send('Logged in.')
-        .then(console.log(`Sending 'logged in' message to ${config.sasch}.`))
-        .catch(console.error);
+    var string = `Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`;
+    console.log(string);
+    client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
+    if ( env.DEBUG ) client.users.get(config.sasch).send(string);
 });
 
 client.on('message', msg => {
