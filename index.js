@@ -33,6 +33,11 @@ client.on('message', msg => {
             for (i in command.data) {
                 arr[i] = eval('(' + command.data[i] + ')');
             }
+// the bot joins a guild.
+client.on("guildCreate", guild => {
+    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+    client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
+});
 
             // console.log(arr);
 
