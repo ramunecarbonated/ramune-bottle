@@ -101,6 +101,12 @@ client.on('message', msg => {
                 msg.reply(err);
             }
         }
+        // destroy and reconnect
+        if (cmd === '-destroy') {
+            msg.reply('destroying connection.');
+            client.destroy();
+            setTimeout(() => { client.login( env.TOKEN ); }, 5000); // reconnect
+        }
     }
 });
 
