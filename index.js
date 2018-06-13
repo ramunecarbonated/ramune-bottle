@@ -118,7 +118,7 @@ client.on('message', msg => {
 
     // loop through json-loaded commands
     if (typeof commands[cmd] !== 'undefined' && commands[cmd]) {
-        var command = commands[cmd];
+        var c = commands[cmd];
         try {
             if (usedCommand.has(msg.author.id)) throw "please wait a few seconds, I am trying to be a good imouto for others too!";
             msg.channel.startTyping();
@@ -128,14 +128,14 @@ client.on('message', msg => {
             var param = parseLine(msg, cmd, !!c.filter, ((c.maxLength || 64) * params.length));
             // set formData
             var arr = {};
-            for (i in command.data) {
-                arr[i] = eval(unescape("(" + command.data[i] + " || '')"));
+            for (i in c.data) {
+                arr[i] = eval("(" + c.data[i] + " || '')");
             } // forgive me, for i have sinned very, very heavily
             // if postUrl exists
-            if (typeof command.postUrl !== 'undefined' && command.postUrl) {
+            if (typeof c.postUrl !== 'undefined' && c.postUrl) {
                 request.post({
                     followAllRedirects: true,
-                    url: command.postUrl,
+                    url: c.postUrl,
                     timeout: 15000,
                     formData: arr
                 }, function optionalCallback(err, response, body) {
