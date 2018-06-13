@@ -114,8 +114,13 @@
         "data": {
             "image": "image || ''"
         }
+    },
+    "obama": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/obama?server=2",
+        "data": {
+            "image": "image || ''"
+        }
     }
-
-    
-
 }
