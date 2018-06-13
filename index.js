@@ -14,7 +14,7 @@ client.login( env.TOKEN );
 client.on('ready', () => {
     var string = `Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`;
     console.log(string);
-    client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
+    if ( !env.DEBUG ) client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
     if ( env.DEBUG ) client.users.get(config.sasch).send(string);
 });
 
