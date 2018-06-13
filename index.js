@@ -144,7 +144,6 @@ client.on('message', msg => {
                     formData: arr
                 }, function optionalCallback(err, response, body) {
                     var errors = /error">(.*?)<\//g.exec(body); // regex to get errors from the website we post to
-                    console.log(errors);
                     if (typeof errors !== 'undefined' && errors) {
                         report(`I did not get an image for you, but I was told to show this to you: \`${errors[1]}\``, msg);
                     } else {
@@ -198,7 +197,6 @@ function parseParams(msg, remove, filter, max, min = 1) {
 
 function parseLine(msg, remove, filter, max = 30, min = 2) {
     var param = msg.content.replace(`${config.prefix}${remove}`, "").trim();
-    console.log(filter);
     var filteredParam = (filter == true)
         ? param.replace(/[^\w\s]/gi, '')
         : param;
