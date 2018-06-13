@@ -85,8 +85,11 @@ client.on("guildDelete", guild => {
         msg.author.send("Hey Oniisan/Oneesan, here are my commands:\n```css\n" + output + "```\nPlease look forward to additional commands from my creator!");
     }
 
-    // ping pong
-    if (cmd === '-ping') msg.reply('Pong!');
+    // ping: post initial message and edit it later with delay in ms
+    if (cmd === 'ping') {
+        var start = Date.now();
+        msg.reply(`pong!`).then(msg => { msg.edit(`pong! (delay: ${Date.now() - start}ms)`); });
+    }
 
     // logging
     if (msg.channel.type == "dm") console.log(`PM with ${msg.channel.recipient.username}#${msg.channel.recipient.discriminator}<${msg.channel.recipient.id}> | ${msg.author.username}#${msg.author.discriminator}<${msg.author.id}>: ${msg.content}`);
