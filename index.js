@@ -48,6 +48,8 @@ client.on("guildDelete", guild => {
 
             if (typeof command.postUrl !== 'undefined' && command.postUrl) {
                 msg.channel.startTyping();
+    if (msg.author.bot) return; // don't respond to other bots or yourself
+    if (msg.content.indexOf(config.prefix) !== 0) return; // only read when its prefix
 
                 request.post({
                     followAllRedirects: true,
