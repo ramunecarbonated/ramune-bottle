@@ -140,5 +140,12 @@
             "skin": "getRandomInt(1, 2)"
         }
     },
+    "tablet": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/tablet?server=2",
+        "data": {
+            "image": "image || ''"
+        }
     }
 }
