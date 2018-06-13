@@ -75,15 +75,18 @@ client.on("guildDelete", guild => {
         }
 
         // set avatar
-        if (cmd === '-setavatar') {
+        if (cmd === 'setavatar') {
             try {
-                var url = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : parseLine(msg, '-setavatar', 256);
+                var url = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first())
+                    ? msg.attachments.first().url
+                    : msg.content.replace(`${config.prefix}${cmd}`, "").trim();
                 client.user.setAvatar(url)
-                    .then(user => msg.reply('New avatar set!'))
+                    .then(user => msg.reply('thanks for the new avatar! :blush:'))
                     .catch(console.error);
             } catch (err) {
-                console.error('Error:', err);
-                msg.reply(err);
+                report(err, msg);
+            }
+        }
         if (cmd === 'eval') {
             try {
                 msg.reply(eval(unescape("(" + msg.cleanContent.replace(`${config.prefix}${cmd}`, "").trim() + ")")));
