@@ -1,60 +1,75 @@
 {
-    "-neonsign": {
+    "neonsign": {
+        "usage": "[text]",
         "postUrl": "https://m.photofunia.com/categories/all_effects/neon-sign?server=2",
         "data": {
             "colour" : "['y', 'r', 'p', 'v', 'b', 'g'][Math.floor(Math.random() * 6)]",
-            "text" : "params"
+            "text" : "param"
         }
     },
-    "-retro": {
+    "retro": {
+        "usage": "[text1 | <text2> | <text3>]",
         "maxArgs": 3,
         "postUrl": "https://m.photofunia.com/categories/all_effects/retro-wave?server=2",
         "data": {
             "bcg" : "getRandomInt(1, 5)",
             "txt" : "getRandomInt(1, 4)",
-            "text1" : "params[0]",
-            "text2" : "params[1]",
-            "text3" : "params[2]"
+            "text1" : "params[0] || param",
+            "text2" : "params[1] || ''",
+            "text3" : "params[2] || ''"
         }
     },
-    "-cake": {
-        "maxArgs": 16,
+    "cake": {
+        "usage": "[text1 | <text2>]",
+        "maxLength": 15,
+        "maxArgs": 2,
         "postUrl": "https://m.photofunia.com/categories/all_effects/birthday-cake?server=2",
         "data": {
-            "text1" : "params"
+            "text1" : "params[0] || param",
+            "text2" : "params[1] || ''"
         }
     },
-    "-roadsign": {
+    "roadsign": {
+        "usage": "[text | <sign>]",
+        "maxLength": 20,
         "postUrl": "https://m.photofunia.com/categories/all_effects/led-road-sign?server=2",
         "data": {
-            "text": "params"
+            "text": "params[0] || param",
+            "sign": "params[1] || ''"
         }
     },
-    "-lightningletters": {
+    "electric": {
+        "usage": "[text]",
         "postUrl": "https://m.photofunia.com/categories/all_effects/light-graffiti?server=2",
         "data": {
-            "text": "params"
+            "text": "param"
         }
     },
-    "-streetsign": {
+    "streetsign": {
+        "usage": "[text]",
+        "maxLength": 20,
         "postUrl": "https://m.photofunia.com/categories/all_effects/street-sign?server=2",
         "data": {
-            "text": "params"
+            "text": "param"
         }
     },
-    "-cemetery": {
+    "cemetery": {
+        "usage": "[text]",
+        "maxLength": 20,
         "postUrl": "https://m.photofunia.com/categories/all_effects/cemetery-gates?server=2",
         "data": {
-            "text": "params"
+            "text": "param"
         }
     },
-    "-noir": {
+    "noir": {
+        "usage": "[text]",
+        "maxLength": 25,
         "postUrl": "https://m.photofunia.com/categories/all_effects/noir?server=2",
         "data": {
             "type": "getRandomInt(1, 4)",
-            "text": "params"
+            "text": "param"
         }
     }
 
-    
+
 }
