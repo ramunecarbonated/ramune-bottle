@@ -81,6 +81,15 @@
             "type": "getRandomInt(1, 4)",
             "text": "param"
         }
+    },
+    "trump": {
+        "usage": "[attachment] [text]",
+        "postUrl": "https://m.photofunia.com/categories/all_effects/trump?server=2",
+        "data": {
+            "image": "image || ''",
+            "text": "param",
+            "type": "getRandomInt(1, 2)"
+        }
     }
 
 
