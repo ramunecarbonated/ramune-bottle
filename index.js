@@ -23,21 +23,18 @@ client.on("guildCreate", guild => {
     client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
 });
 
-            // console.log(arr);
 // the bot is kicked from a guild :(
 client.on("guildDelete", guild => {
     console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
     client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
 });
 
+client.on('message', msg => {
     if (msg.author.bot) return; // don't respond to other bots or yourself
     if (msg.content.indexOf(config.prefix) !== 0) return; // only read when its prefix
 
     var cmd = msg.content.slice(config.prefix.length).split(' ')[0].toLowerCase();
 
-        } catch(err) {
-            console.error('Error:', err);
-            msg.reply(err);
     // help: HELP ME
     if (cmd === 'help') {
         var cmds = Object.keys(commands).sort((a, b) => a.localeCompare(b));
@@ -87,6 +84,8 @@ client.on("guildDelete", guild => {
                 report(err, msg);
             }
         }
+
+        // eval.. heh
         if (cmd === 'eval') {
             try {
                 msg.reply(eval(unescape("(" + msg.cleanContent.replace(`${config.prefix}${cmd}`, "").trim() + ")")));
@@ -104,6 +103,7 @@ client.on("guildDelete", guild => {
                 report(err, msg);
             }
         }
+
         // destroy and reconnect
         if (cmd === 'reconnect') {
             msg.reply('okay, be right back. :wave:');
