@@ -158,5 +158,13 @@
             "title2": "params[1] || ''",
             "channel": "params[2] || ''"
         }
+    },
+    "press": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/press_conference?server=2",
+        "data": {
+            "image": "image || ''"
+        }
     }
 }
