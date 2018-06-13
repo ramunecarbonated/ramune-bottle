@@ -103,9 +103,13 @@ client.on('message', msg => {
         }
         // destroy and reconnect
         if (cmd === '-destroy') {
-            msg.reply('destroying connection.');
+            msg.reply('okay, be right back.');
             client.destroy();
-            setTimeout(() => { client.login( env.TOKEN ); }, 5000); // reconnect
+            setTimeout(() => {
+                client.login( env.TOKEN );
+                msg.reply('back!')
+            }, 5000); // reconnect
+        }
         }
     }
 });
