@@ -72,6 +72,15 @@
             "type": "getRandomInt(1, 4)",
             "text": "param"
         }
+    },
+    "movie": {
+        "usage": "[text1 | <text2>]",
+        "maxArgs": 2,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/movie_marquee?server=2",
+        "data": {
+            "type": "getRandomInt(1, 4)",
+            "text": "param"
+        }
     }
 
 
