@@ -124,8 +124,10 @@ client.on('message', msg => {
             msg.channel.startTyping();
             // get parameters
             var image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : null; // url of image attachment
-            var params = parseParams(msg, cmd, !!c.filter, (c.maxArgs || 32));
-            var param = parseLine(msg, cmd, !!c.filter, ((c.maxLength || 64) * params.length));
+            if (typeof c.imageOnly === 'undefined' || !c.imageOnly) {
+                var params = parseParams(msg, cmd, !!c.filter, (c.maxArgs || 32));
+                var param = parseLine(msg, cmd, !!c.filter, ((c.maxLength || 64) * params.length));
+            }
             // set formData
             var arr = {};
             for (i in c.data) {

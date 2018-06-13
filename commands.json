@@ -101,11 +101,21 @@
     },
     "picadilly": {
         "usage": "[attachment]",
+        "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/picadilly_circus?server=2",
+        "data": {
+            "image": "image || ''"
+        }
+    },
+    "rushmore": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/mount_rushmore?server=2",
         "data": {
             "image": "image || ''"
         }
     }
 
+    
 
 }
