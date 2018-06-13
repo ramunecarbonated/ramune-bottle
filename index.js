@@ -40,6 +40,11 @@ client.on("guildCreate", guild => {
 });
 
             // console.log(arr);
+// the bot is kicked from a guild :(
+client.on("guildDelete", guild => {
+    console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
+    client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
+});
 
             if (typeof command.postUrl !== 'undefined' && command.postUrl) {
                 msg.channel.startTyping();
