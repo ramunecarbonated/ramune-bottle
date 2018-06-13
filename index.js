@@ -143,19 +143,19 @@ function getRandomInt(minimum, maximum) {
 }
 
 function parseParams(msg, remove, max, min = 1) {
-    var param = msg.content.replace(remove, "").trim();
-    if (param.length < 2) throw `Invalid arguments, please give me at least ${min} and a maximum of ${max}.`;
+    var param = msg.content.replace(`${config.prefix}${remove}`, "").trim();
+    if (param.length < 2) throw `please give me at least ${min} and a maximum of ${max}.`;
     var params = param.split('|');
     var count = params.length;
-    if (count < min || count > max) throw `Invalid arguments, please give me at least ${min} and a maximum of ${max}.`;
+    if (count < min || count > max) throw `please give me at least ${min} argument(s) and a maximum of ${max} arguments.`;
 
-    return params.map(s => s.trim());
+    return (count <= 1) ? [ null ] : params.map(s => s.trim());
 }
 
 function parseLine(msg, remove, max = 30, min = 4) {
-    var param = msg.content.replace(remove, "").trim();
+    var param = msg.content.replace(`${config.prefix}${remove}`, "").trim();
     var length = param.length;
-    if (length < min || length > max) throw `Invalid argument, please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
+    if (length < min || length > max) throw `please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
 
     return param;
 }
