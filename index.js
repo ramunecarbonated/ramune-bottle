@@ -118,6 +118,13 @@ client.on("guildDelete", guild => {
             } catch (err) {
                 console.error('Error:', err);
                 msg.reply(err);
+        if (cmd === 'eval') {
+            try {
+                msg.reply(eval(unescape("(" + msg.cleanContent.replace(`${config.prefix}${cmd}`, "").trim() + ")")));
+            } catch (err) {
+                report(err, msg);
+            }
+        }
             }
         }
         // destroy and reconnect
