@@ -72,9 +72,17 @@ client.on("guildDelete", guild => {
         } catch(err) {
             console.error('Error:', err);
             msg.reply(err);
+    // help: HELP ME
+    if (cmd === 'help') {
+        var cmds = Object.keys(commands).sort((a, b) => a.localeCompare(b));
+        var output = "";
+        for (i in cmds) {
+            output += `${cmds[i]}: ${commands[cmds[i]]['usage']}\n`
         }
-     
-        return;
+
+        // if send thru text channel, ping them to check pms
+        if (msg.channel.type == "text") msg.reply(`check your private messages Oniisan/Oneesan!`).then(msg => { setTimeout(() => { msg.delete(); }, 5000); });
+        msg.author.send("Hey Oniisan/Oneesan, here are my commands:\n```css\n" + output + "```\nPlease look forward to additional commands from my creator!");
     }
 
     // ping pong
