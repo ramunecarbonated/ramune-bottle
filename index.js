@@ -5,6 +5,7 @@ var env = process.env;
 
 var config = require('./config.js');
 var commands = require('./commands.json'); // TODO: if this gets big, put in async
+var fs = require('fs');
 var request = require('request-promise-native');
 
 client.login( env.TOKEN );
@@ -122,6 +123,7 @@ client.on('message', msg => {
             if (usedCommand.has(msg.author.id)) throw "please wait a few seconds, I am trying to be a good imouto for others too!";
             msg.channel.startTyping();
             // get parameters
+            var image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : null; // url of image attachment
             var params = parseParams(msg, cmd, !!c.filter, (c.maxArgs || 32));
             var param = parseLine(msg, cmd, !!c.filter, ((c.maxLength || 64) * params.length));
             // set formData
