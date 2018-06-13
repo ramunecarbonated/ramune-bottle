@@ -1,10 +1,10 @@
 const usedCommand = new Set();
 const Discord = require('discord.js');
 const client = new Discord.Client();
-var env = process.env;
 
 var config = require('./config.js');
 var commands = require('./commands.json'); // TODO: if this gets big, put in async
+var env = process.env;
 var fs = require('fs');
 var request = require('request-promise-native');
 
