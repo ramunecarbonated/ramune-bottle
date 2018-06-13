@@ -147,5 +147,16 @@
         "data": {
             "image": "image || ''"
         }
+    },
+    "news": {
+        "usage": "[attachment] [title | <headline> | <channel>]",
+        "maxArgs": 3,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/breaking-news?server=2",
+        "data": {
+            "image": "image || ''",
+            "title1": "params[0] || ''",
+            "title2": "params[1] || ''",
+            "channel": "params[2] || ''"
+        }
     }
 }
