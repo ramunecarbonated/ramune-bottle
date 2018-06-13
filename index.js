@@ -141,14 +141,14 @@ client.on('message', msg => {
                     timeout: 15000,
                     formData: arr
                 }, function optionalCallback(err, response, body) {
-                    if (err) throw "an error occurred while trying to fetch the result!";
-                    // regex to get the very first image tag.
-                    var re = /src="([^"]+)"/g;
-                    var results = re.exec(body);
-                    // send picture
-                    msg.channel.send({
-                        files: [results[1]]
-                    }).then(msg.channel.stopTyping()).catch(console.error);
+                    var errors = /error">(.*?)<\//g.exec(body); // regex to get errors from the website we post to
+                    console.log(errors);
+                    if (typeof errors !== 'undefined' && errors) {
+                        report(`I did not get an image for you, but I was told to show this to you: \`${errors[1]}\``, msg);
+                    } else {
+                        var results = /src="([^"]+)"/g.exec(body); // regex to get the very first image tag
+                        msg.channel.send({ files: [results[1]] }); // send message
+                    }
                 }).then(msg.channel.stopTyping(true)).catch(console.error);
             }
         } catch(err) {
