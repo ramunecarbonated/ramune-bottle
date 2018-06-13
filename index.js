@@ -17,22 +17,6 @@ client.on('ready', () => {
     if ( env.DEBUG ) client.users.get(config.sasch).send(string);
 });
 
-client.on('message', msg => {
-    // loop through json-loaded commands first
-    var cmd = msg.content.split(' ')[0].toLowerCase();
-    if (typeof commands[cmd] !== 'undefined' && commands[cmd]) {
-        var command = commands[cmd];
-        try {
-            if (typeof command.maxArgs !== 'undefined' && command.maxArgs <= 8) { // maximum of 8 args per command
-                var params = parseParams(msg, cmd, command.maxArgs);
-            } else { // if not set or more than 8 (string limit), parse as a whole
-                var params = parseLine(msg, cmd, command.maxArgs);
-            }
-
-            var arr = {};
-            for (i in command.data) {
-                arr[i] = eval('(' + command.data[i] + ')');
-            }
 // the bot joins a guild.
 client.on("guildCreate", guild => {
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
@@ -46,28 +30,10 @@ client.on("guildDelete", guild => {
     client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
 });
 
-            if (typeof command.postUrl !== 'undefined' && command.postUrl) {
-                msg.channel.startTyping();
     if (msg.author.bot) return; // don't respond to other bots or yourself
     if (msg.content.indexOf(config.prefix) !== 0) return; // only read when its prefix
 
-                request.post({
-                    followAllRedirects: true,
-                    url: command.postUrl,
-                    timeout: 15000,
-                    formData: arr
-                }, function optionalCallback(err, response, body) {
-                    // TODO: this is deprec
-                    if (err) return console.error('upload failed:', err);
-                    // regex to get the very first image tag.
-                    var re = /src="([^"]+)"/g;
-                    var results = re.exec(body);
-                    // send picture
-                    msg.channel.send({
-                        files: [results[1]]
-                    }).then(msg.channel.stopTyping()).catch(console.error);
-                });
-            }
+    var cmd = msg.content.slice(config.prefix.length).split(' ')[0].toLowerCase();
 
         } catch(err) {
             console.error('Error:', err);
@@ -144,7 +110,45 @@ client.on("guildDelete", guild => {
                 msg.reply('back!')
             }, 3000); // reconnect
         }
-            for (i in command.data) { arr[i] = eval(unescape('(' + command.data[i] + ')')); } // forgive me, for i have sinned very, very heavily
+    }
+
+    // loop through json-loaded commands
+    if (typeof commands[cmd] !== 'undefined' && commands[cmd]) {
+        var command = commands[cmd];
+        try {
+            if (usedCommand.has(msg.author.id)) throw "please wait a few seconds, I am trying to be a good imouto for others too!";
+            msg.channel.startTyping();
+            // get parameters
+            var params = parseParams(msg, cmd, (command.maxArgs || 32));
+            var param = parseLine(msg, cmd, ((command.maxLength || 64) * (command.maxArgs || 1)));
+
+            // set formData
+            var arr = {};
+            for (i in command.data) {
+                arr[i] = eval(unescape("(" + command.data[i] + " || '')"));
+            } // forgive me, for i have sinned very, very heavily
+            // if postUrl exists
+            if (typeof command.postUrl !== 'undefined' && command.postUrl) {
+                request.post({
+                    followAllRedirects: true,
+                    url: command.postUrl,
+                    timeout: 15000,
+                    formData: arr
+                }, function optionalCallback(err, response, body) {
+                    if (err) throw "an error occurred while trying to fetch the result!";
+                    // regex to get the very first image tag.
+                    var re = /src="([^"]+)"/g;
+                    var results = re.exec(body);
+                    // send picture
+                    msg.channel.send({
+                        files: [results[1]]
+                    }).then(msg.channel.stopTyping()).catch(console.error);
+                }).then(msg.channel.stopTyping(true)).catch(console.error);
+            }
+        } catch(err) {
+            report(err, msg);
+        } finally {
+            startCooldown(msg.author.id); // add to cooldown set
         }
     }
 });
