@@ -5,10 +5,12 @@ const client = new Discord.Client();
 
 var config = require('./config.js')
     , commands = require('./commands.json') // TODO: if this gets big, put in async
+    , crypto = require("crypto")
     , env = process.env
     , fs = require('fs')
     , gm = require('gm').subClass({imageMagick: true})
     , lastAttachmentUrl = []
+    , path = require('path')
     , request = require('request-promise-native');
 
 
