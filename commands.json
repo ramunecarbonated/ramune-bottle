@@ -244,5 +244,10 @@
         "usage": "[attachment]",
         "imageOnly": true,
         "morphFile": "pride"
+    },
+    "despacito": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "morphFile": "despacito"
     }
 }
