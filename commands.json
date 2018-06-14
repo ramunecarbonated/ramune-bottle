@@ -210,5 +210,13 @@
         "data": {
             "image": "image || ''"
         }
+    },
+    "cinema": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/in-the-cinema?server=2",
+        "data": {
+            "image": "image || ''"
+        }
     }
 }
