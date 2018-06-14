@@ -234,5 +234,10 @@
         "data": {
             "image": "image || ''"
         }
+    },
+    "police": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "morphFile": "police"
     }
 }
