@@ -239,5 +239,10 @@
         "usage": "[attachment]",
         "imageOnly": true,
         "morphFile": "police"
+    },
+    "pride": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "morphFile": "pride"
     }
 }
