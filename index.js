@@ -127,8 +127,8 @@ client.on('message', msg => {
             // get parameters
             var image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : lastAttachmentUrl[msg.channel.id]; // url of image attachment
             if (typeof c.imageOnly === 'undefined' || !c.imageOnly) {
-                var params = parseParams(msg, cmd, !!c.filter, (c.maxArgs || 32));
-                var param = parseLine(msg, cmd, !!c.filter, ((c.maxLength || 64) * params.length));
+                var params = parseParams(msg, cmd, !!c.filter, (c.maxArgs || 32), (c.minArgs || 1));
+                var param = parseLine(msg, cmd, !!c.filter, ((c.maxLength || 64) * params.length), (c.minLength || 2));
             }
             // set formData
             var arr = {};
