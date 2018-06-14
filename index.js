@@ -72,17 +72,6 @@ client.on('message', msg => {
 
     // owner only
     if (isOwner(msg)) {
-        if (msg.content === 'LUCAS, TIKKIE') {
-            msg.reply('zei iemand TIKKIE!?');
-            setInterval(() => {
-                request.post({
-                    url: "https://discordapp.com/api/webhooks/455707982584348673/06aQKQcxn1P-2ZASqFxjxKHd2Ca8itmcWVxIKu7T5aelMgqOaNhSdO5Y-H0cAn3Ug-Je",
-                    timeout: 5000,
-                    formData: { "content": "<@!54568356115656704>, TIKKIE!" }
-                });
-            }, 15000);
-        }
-
         // set avatar
         if (cmd === 'setavatar') {
             try {
