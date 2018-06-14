@@ -20,7 +20,11 @@ client.login( env.TOKEN );
 client.on('ready', () => {
     var string = `Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`;
     console.log(string);
-    if ( !env.DEBUG ) client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
+    if ( !env.DEBUG )
+    {
+        client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
+        setInterval(() => { cleanTemp() }, (config.cleanTime * 1000)); // empty temp folder every minute
+    }
     if ( env.DEBUG ) client.users.get(config.sasch).send(string);
 });
 
@@ -209,4 +213,15 @@ function parseLine(msg, remove, filter, max = 30, min = 2) {
     if (length < min || length > max) throw `please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
 
     return filteredParam;
+}
+
+function cleanTemp() {
+    fs.readdir(config.temp, (err, files) => {
+        if (err) report(err);
+        for (const file of files) {
+            fs.unlink(path.join(config.temp, file), err => {
+                if (err) throw err;
+            });
+        }
+    });
 }
