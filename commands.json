@@ -175,5 +175,16 @@
         "data": {
             "image": "image || ''"
         }
+    },
+    "keepcalm": {
+        "usage": "[<text1> | <text2>]",
+        "postUrl": "https://m.photofunia.com/categories/all_effects/keep_calm?server=2",
+        "data": {
+            "line1" : "'KEEP'",
+            "line2" : "'CALM'",
+            "line3" : "'AND'",
+            "line4" : "params[0] || ''",
+            "line5" : "params[1] || ''"
+        }
     }
 }
