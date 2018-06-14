@@ -194,5 +194,13 @@
         "data": {
             "image": "image || ''"
         }
+    },
+    "museum": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/louvre?server=2",
+        "data": {
+            "image": "image || ''"
+        }
     }
 }
