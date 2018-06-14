@@ -218,5 +218,13 @@
         "data": {
             "image": "image || ''"
         }
+    },
+    "readingcat": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/smart_kitty?server=2",
+        "data": {
+            "image": "image || ''"
+        }
     }
 }
