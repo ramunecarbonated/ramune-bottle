@@ -1,13 +1,15 @@
 const usedCommand = new Set();
-var lastAttachmentUrl = [];
+
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-var config = require('./config.js');
-var commands = require('./commands.json'); // TODO: if this gets big, put in async
-var env = process.env;
-var fs = require('fs');
-var request = require('request-promise-native');
+var config = require('./config.js')
+    , commands = require('./commands.json') // TODO: if this gets big, put in async
+    , env = process.env
+    , fs = require('fs')
+    , lastAttachmentUrl = []
+    , request = require('request-promise-native');
+
 
 client.login( env.TOKEN );
 
