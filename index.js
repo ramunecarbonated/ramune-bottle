@@ -183,8 +183,7 @@ function report(err, msg = null) {
 }
 
 function startCooldown(id) {
-    // adds the user to the set so that they can't use commands
-    usedCommand.add(id);
+    usedCommand.add(id); // adds the user to the set so that they can't use commands
     setTimeout(() => { usedCommand.delete(id); }, config.cooldown); // remove after a few
 }
 
