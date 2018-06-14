@@ -160,6 +160,7 @@ client.on('message', msg => {
 
                 gm(image).morph(`./res/${c.morphFile}.png`, `./temp/${tempName}.png`, function (err) {
                     if (err) {
+                        console.error(err);
                         report("I lost you in the middle there, sorry! Can you please tell me what you wanted again?", msg);
                     } else {
                         msg.channel.send({ files: [`./temp/${tempName}-1.png`] }).then(msg.channel.stopTyping(true)).catch(console.error); // send message
