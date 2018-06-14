@@ -150,6 +150,22 @@ client.on('message', msg => {
                     }
                 }).then(msg.channel.stopTyping(true)).catch(console.error);
             }
+            // if morphFile (imagemagick) exists
+            else if (typeof c.morphFile !== 'undefined' && c.morphFile) {
+                var tempName = crypto.randomBytes(12).toString('hex');
+
+                fs.open(`./temp/${tempName}.png`, 'w', function (err, file) {
+                    if (err) throw err;
+                }); // need to do this or else imagemagick will cause an error
+
+                gm(image).morph(`./res/${c.morphFile}.png`, `./temp/${tempName}.png`, function (err) {
+                    if (err) {
+                        report("I lost you in the middle there, sorry! Can you please tell me what you wanted again?", msg);
+                    } else {
+                        msg.channel.send({ files: [`./temp/${tempName}-1.png`] }).then(msg.channel.stopTyping(true)).catch(console.error); // send message
+                    }
+                });
+            }
         } catch(err) {
             report(err, msg);
         } finally {
