@@ -149,7 +149,7 @@
         }
     },
     "news": {
-        "usage": "[attachment] [title | <headline> | <channel>]",
+        "usage": "[attachment] [title | headline | <channel>]",
         "minArgs": 2,
         "maxArgs": 3,
         "postUrl": "https://m.photofunia.com/categories/all_effects/breaking-news?server=2",
