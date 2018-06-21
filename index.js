@@ -1,16 +1,16 @@
-const usedCommand = new Set();
-
-const Discord = require('discord.js');
-const client = new Discord.Client();
-
-var config = require('./config.js')
-    , commands = require('./commands.json') // TODO: if this gets big, put in async
+// requires and all that jazz
+const Discord = require('discord.js')
+    , client = new Discord.Client()
+    , config = require('./include/config')
+    , commands = require('./include/commands.json') // TODO: if this gets big, put in async
     , crypto = require("crypto")
-    , env = process.env
+    , Enmap = require("enmap")
     , fs = require('fs')
     , gm = require('gm').subClass({imageMagick: true})
+    , helpers = require('./include/helpers')
     , lastAttachmentUrl = []
     , path = require('path')
+    , Provider = require("enmap-sqlite")
     , request = require('request-promise-native');
 
 
