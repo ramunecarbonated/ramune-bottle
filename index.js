@@ -87,13 +87,6 @@ client.on('message', msg => {
             }
         }
 
-        // eval.. heh
-        if (cmd === 'eval') {
-            try {
-                msg.reply(eval(unescape("(" + msg.cleanContent.replace(`${config.prefix}${cmd}`, "").trim() + ")")));
-            } catch (err) {
-                report(err, msg);
-            }
         if (cmd === 'setusername') {
             client.user.setUsername( msg.cleanContent.replace(`${config.prefix}${cmd}`, "") ).then(user => console.log(`My new username is ${user.username}`)).catch(console.error);
         }
