@@ -144,10 +144,10 @@ client.on('message', msg => {
     }
 });
 
-function report(err, msg = null) {
+function report(err, msg = null, friendlyMessage = null) {
     console.error('Error:', err);
     if (msg != null) {
-        msg.reply(err);
+        msg.reply(friendlyMessage || err);
         msg.channel.stopTyping(true);
     }
 }
