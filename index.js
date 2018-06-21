@@ -102,13 +102,6 @@ client.on('message', msg => {
         }
 
         // destroy and reconnect
-        if (cmd === 'reconnect') {
-            msg.reply('okay, be right back. :wave:');
-            client.destroy();
-            setTimeout(() => {
-                client.login( env.TOKEN );
-                msg.reply('back!')
-            }, 3000); // reconnect
         }
     }
 
