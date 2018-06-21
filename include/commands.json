@@ -13,8 +13,8 @@
         "maxArgs": 3,
         "postUrl": "https://m.photofunia.com/categories/all_effects/retro-wave?server=2",
         "data": {
-            "bcg" : "getRandomInt(1, 5)",
-            "txt" : "getRandomInt(1, 4)",
+            "bcg" : "helpers.getRandomInt(1, 5)",
+            "txt" : "helpers.getRandomInt(1, 4)",
             "text1" : "params[0] || param",
             "text2" : "params[1] || ''",
             "text3" : "params[2] || ''"
@@ -69,7 +69,7 @@
         "maxLength": 25,
         "postUrl": "https://m.photofunia.com/categories/all_effects/noir?server=2",
         "data": {
-            "type": "getRandomInt(1, 4)",
+            "type": "helpers.getRandomInt(1, 4)",
             "text": "param"
         }
     },
@@ -78,7 +78,7 @@
         "maxArgs": 2,
         "postUrl": "https://m.photofunia.com/categories/all_effects/movie_marquee?server=2",
         "data": {
-            "type": "getRandomInt(1, 4)",
+            "type": "helpers.getRandomInt(1, 4)",
             "text": "param"
         }
     },
@@ -88,7 +88,7 @@
         "data": {
             "image": "image || ''",
             "text": "param",
-            "type": "getRandomInt(1, 2)"
+            "type": "helpers.getRandomInt(1, 2)"
         }
     },
     "valentine": {
@@ -137,7 +137,7 @@
         "data": {
             "image": "image || ''",
             "text": "param",
-            "skin": "getRandomInt(1, 2)"
+            "skin": "helpers.getRandomInt(1, 2)"
         }
     },
     "tablet": {
