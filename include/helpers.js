@@ -1,4 +1,4 @@
-const config = require('./config.js')
+const config = require('./include/config')
     , fs = require('fs')
     , usedCommand = new Set();
 

@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 var env = process.env;
-
-var config = require('./config.js');
+// TODO
 
 client.login( env.TOKEN )
     .then(client => console.log(`Logged in as ${client.user.tag}`))
