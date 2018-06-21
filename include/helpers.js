@@ -47,7 +47,7 @@ module.exports =
             , filteredParam = (commandData.filter) ? param.replace(/[^\w\s]/gi, '') : param
             , length = filteredParam.length;
         if (length < min || length > max) throw `please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
-        return param;
+        return filteredParam;
     },
 
     parseParams: function (msg, commandData, commandName) {
