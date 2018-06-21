@@ -80,15 +80,8 @@ client.on('message', msg => {
 
         // say it with me
         if (cmd === 'say') {
-            try {
-                msg.delete().catch(silent => {});
-                msg.channel.send( msg.cleanContent.replace(`${config.prefix}${cmd}`, "").trim() );
-            } catch (err) {
-                report(err, msg);
-            }
-        }
-
-        // destroy and reconnect
+            msg.delete().catch(silent => {}); // silent error if bot does not have `Manage Messages`
+            msg.channel.send( msg.cleanContent.replace(`${config.prefix}${cmd}`, "").trim() ).catch(silent => {});
         }
     }
 
