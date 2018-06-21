@@ -70,16 +70,8 @@ client.on('message', msg => {
     if (isOwner(msg)) {
         // set avatar
         if (cmd === 'setavatar') {
-            try {
-                var url = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first())
-                    ? msg.attachments.first().url
-                    : msg.content.replace(`${config.prefix}${cmd}`, "").trim();
-                client.user.setAvatar(url)
-                    .then(user => msg.reply('thanks for the new avatar! :blush:'))
-                    .catch(console.error);
-            } catch (err) {
-                report(err, msg);
-            }
+            const url = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : msg.content.replace(`${config.prefix}${cmd}`, "").trim();
+            client.user.setAvatar(url).then(user => msg.reply('thanks for the new avatar! :blush:')).catch(silent => {});
         }
 
         if (cmd === 'setusername') {
