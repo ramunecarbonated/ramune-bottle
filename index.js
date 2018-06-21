@@ -52,8 +52,8 @@ client.on('message', msg => {
         }
 
         // if send thru text channel, ping them to check pms
-        if (msg.channel.type == "text") msg.reply(`check your private messages Oniisan/Oneesan!`).then(msg => { setTimeout(() => { msg.delete(); }, 5000); });
-        msg.author.send("Hey Oniisan/Oneesan, here are my commands:\n```css\n" + output + "```\nPlease look forward to additional commands from my creator!");
+        msg.reply(`check your private messages!`).then(msg => { setTimeout(() => { msg.delete(); }, 5000); });
+        msg.author.send("Here are my commands:\n```css\n" + output + "```\nGot a suggestion, found or a bug or interested in the source? Visit the GitHub repo: https://github.com/ramunecarbonated/ramune-bottle/");
     }
 
     // ping: post initial message and edit it later with delay in ms
