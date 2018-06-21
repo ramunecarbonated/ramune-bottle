@@ -19,14 +19,8 @@ client.points = new Enmap({provider: new Provider({name: "points"})});
 
 // ready to go!
 client.on('ready', () => {
-    var string = `Bot has started, with ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`;
-    console.log(string);
-    if ( !env.DEBUG )
-    {
-        client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
-        setInterval(() => { cleanTemp() }, (config.cleanTime * 1000)); // empty temp folder every minute
-    }
-    if ( env.DEBUG ) client.users.get(config.sasch).send(string);
+    if (!fs.existsSync(config.temp)) fs.mkdirSync(config.temp);
+    client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
 });
 
 // the bot joins a guild.
