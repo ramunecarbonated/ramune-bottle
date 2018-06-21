@@ -13,8 +13,8 @@ const Discord = require('discord.js')
     , Provider = require("enmap-sqlite")
     , request = require('request-promise-native');
 
+client.login( process.env.TOKEN );
 
-client.login( env.TOKEN );
 client.points = new Enmap({provider: new Provider({name: "points"})});
 
 // ready to go!
@@ -41,12 +41,12 @@ client.on('message', msg => {
     if (msg.author.bot) return; // don't respond to other bots or yourself
     if (msg.content.indexOf(config.prefix) !== 0) return; // only read when its prefix
 
-    var cmd = msg.content.slice(config.prefix.length).split(' ')[0].toLowerCase();
+    const cmd = msg.content.slice(config.prefix.length).split(' ')[0].toLowerCase();
 
     // help: HELP ME
     if (cmd === 'help') {
-        var cmds = Object.keys(commands).sort((a, b) => a.localeCompare(b));
-        var output = "";
+        const cmds = Object.keys(commands).sort((a, b) => a.localeCompare(b));
+        let output = "";
         for (i in cmds) {
             output += `${cmds[i]}: ${commands[cmds[i]]['usage']}\n`
         }
@@ -58,7 +58,7 @@ client.on('message', msg => {
 
     // ping: post initial message and edit it later with delay in ms
     if (cmd === 'ping') {
-        var start = Date.now();
+        const start = Date.now();
         msg.reply(`pong!`).then(msg => { msg.edit(`pong! (delay: ${Date.now() - start}ms)`); });
     }
 
@@ -67,7 +67,7 @@ client.on('message', msg => {
     // else if (msg.channel.type == "text") console.log(`${msg.channel.guild.name}<#${msg.channel.name}> | ${msg.author.username}#${msg.author.discriminator}<${msg.author.id}>: ${msg.content}`);
 
     // owner only
-    if (isOwner(msg)) {
+    if (helpers.isOwner(msg)) {
         // set avatar
         if (cmd === 'setavatar') {
             const url = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : msg.content.replace(`${config.prefix}${cmd}`, "").trim();
@@ -87,21 +87,22 @@ client.on('message', msg => {
 
     // loop through json-loaded commands
     if (typeof commands[cmd] !== 'undefined' && commands[cmd]) {
-        var c = commands[cmd];
+        const c = commands[cmd];
         try {
-            if (usedCommand.has(msg.author.id)) throw "please wait a few seconds, I am trying to be a good imouto for others too!";
+            if (helpers.hasCooldown(msg.author.id)) throw "please wait a few seconds, I am trying to be a good imouto for others too!";
             msg.channel.startTyping();
             // get parameters
-            var image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : lastAttachmentUrl[msg.channel.id]; // url of image attachment
+            let arr = {}
+                , image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : lastAttachmentUrl[msg.channel.id] // url of image attachment
+                , param, params;
             if (typeof c.imageOnly === 'undefined' || !c.imageOnly) {
-                var params = parseParams(msg, cmd, !!c.filter, (c.maxArgs || 32), (c.minArgs || 1));
-                var param = parseLine(msg, cmd, !!c.filter, ((c.maxLength || 64) * params.length), (c.minLength || 2));
+                params = helpers.parseParams(msg, c, cmd)
+                param = helpers.parseLine(msg, c, cmd);
             }
             // set formData
-            var arr = {};
             for (i in c.data) {
-                arr[i] = eval("(" + c.data[i] + " || '')");
-            } // forgive me, for i have sinned very, very heavily
+                arr[i] = eval("(" + c.data[i] + " || '')"); // forgive me, for i have sinned very, very heavily
+            }
             // if postUrl exists
             if (typeof c.postUrl !== 'undefined' && c.postUrl) {
                 request.post({
@@ -112,7 +113,7 @@ client.on('message', msg => {
                 }, function optionalCallback(err, response, body) {
                     var errors = /error">(.*?)<\//g.exec(body); // regex to get errors from the website we post to
                     if (typeof errors !== 'undefined' && errors) {
-                        report(`I did not get an image for you, but I was told to show this to you: \`${errors[1]}\``, msg);
+                        return report(errors, msg, `Something went wrong while making your image, \`${errors[1]}\``);
                     } else {
                         var results = /src="([^"]+)"/g.exec(body); // regex to get the very first image tag
                         msg.channel.send({ files: [results[1]] }); // send message
@@ -121,25 +122,27 @@ client.on('message', msg => {
             }
             // if morphFile (imagemagick) exists
             else if (typeof c.morphFile !== 'undefined' && c.morphFile) {
-                var tempName = crypto.randomBytes(12).toString('hex');
+                let tempName = crypto.randomBytes(4).toString('hex');
 
-                fs.open(`./temp/${tempName}.png`, 'w', function (err, file) {
+                fs.open(`./temp/${tempName}.jpg`, 'w', function (err, file) {
                     if (err) throw err;
+                    fs.closeSync(file);
                 }); // need to do this or else imagemagick will cause an error
 
-                gm(image).morph(`./res/${c.morphFile}.png`, `./temp/${tempName}.png`, function (err) {
-                    if (err) {
-                        console.error(err);
-                        report("I lost you in the middle there, sorry! Can you please tell me what you wanted again?", msg);
-                    } else {
-                        msg.channel.send({ files: [`./temp/${tempName}-1.png`] }).then(msg.channel.stopTyping(true)).catch(console.error); // send message
-                    }
-                });
+                gm(`${image}[0]`)
+                    .morph(`./res/${c.morphFile}.png`, `./temp/${tempName}.jpg`)
+                    .compress("JPEG")
+                    .write(`./temp/${tempName}.jpg`, function (err) {
+                        msg.channel.send({ files: [`./temp/${tempName}-1.jpg`] }).then(e => {
+                            msg.channel.stopTyping(true);
+                            helpers.cleanImages(tempName);
+                        }).catch(console.error); // send message
+                    });
             }
         } catch(err) {
             report(err, msg);
         } finally {
-            startCooldown(msg.author.id); // add to cooldown set
+            helpers.usedCommand = helpers.startCooldown(msg.author.id); // add to cooldown set
         }
     }
 });
