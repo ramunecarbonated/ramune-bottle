@@ -15,6 +15,7 @@ const Discord = require('discord.js')
 
 
 client.login( env.TOKEN );
+client.points = new Enmap({provider: new Provider({name: "points"})});
 
 // ready to go!
 client.on('ready', () => {
