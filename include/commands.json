@@ -238,16 +238,31 @@
     "police": {
         "usage": "[attachment]",
         "imageOnly": true,
-        "morphFile": "police"
+        "morphFile": "http://pomf.ramune.me/files/rlezrkq.png"
     },
     "pride": {
         "usage": "[attachment]",
         "imageOnly": true,
-        "morphFile": "pride"
+        "morphFile": "http://pomf.ramune.me/files/wwzgkma.png"
     },
     "despacito": {
         "usage": "[attachment]",
         "imageOnly": true,
-        "morphFile": "despacito"
+        "morphFile": "http://pomf.ramune.me/files/hfwanss.png"
+    },
+    "nazi": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "morphFile": "https://pomf.ramune.me/files/jokblip.png"
+    },
+    "israel": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "morphFile": "http://pomf.ramune.me/files/oqzdblh.png"
+    },
+    "jew": {
+        "usage": "[attachment]",
+        "imageOnly": true,
+        "morphFile": "http://pomf.ramune.me/files/sdqkcis.png"
     }
 }

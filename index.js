@@ -130,7 +130,7 @@ client.on('message', msg => {
                 }); // need to do this or else imagemagick will cause an error
 
                 gm(`${image}[0]`)
-                    .morph(`./res/${c.morphFile}.png`, `./temp/${tempName}.jpg`)
+                    .morph(c.morphFile, `./temp/${tempName}.jpg`)
                     .compress("JPEG")
                     .write(`./temp/${tempName}.jpg`, function (err) {
                         msg.channel.send({ files: [`./temp/${tempName}-1.jpg`] }).then(e => {
