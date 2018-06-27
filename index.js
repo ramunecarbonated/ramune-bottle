@@ -15,7 +15,7 @@ const Discord = require('discord.js')
 
 client.login( process.env.TOKEN );
 
-client.points = new Enmap({provider: new Provider({name: "points"})});
+client.points = new Enmap({provider: new Provider({name: "serverSettings"})});
 
 // ready to go!
 client.on('ready', () => {
@@ -74,6 +74,7 @@ client.on('message', msg => {
             client.user.setAvatar(url).then(user => msg.reply('thanks for the new avatar! :blush:')).catch(silent => {});
         }
 
+        // set username
         if (cmd === 'setusername') {
             client.user.setUsername( msg.cleanContent.replace(`${config.prefix}${cmd}`, "") ).then(user => console.log(`My new username is ${user.username}`)).catch(console.error);
         }
