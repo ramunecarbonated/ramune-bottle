@@ -90,7 +90,7 @@ client.on('message', msg => {
     if (typeof commands[cmd] !== 'undefined' && commands[cmd]) {
         const c = commands[cmd];
         try {
-            if (helpers.hasCooldown(msg.author.id)) throw "please wait a few seconds, I am trying to be a good imouto for others too!";
+            if (helpers.hasCooldown(msg.author.id)) throw "please wait a few seconds, I am trying to be a good bot for others too!";
             msg.channel.startTyping();
             // get parameters
             let arr = {}
