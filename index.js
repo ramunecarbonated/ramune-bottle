@@ -19,7 +19,7 @@ client.points = new Enmap({provider: new Provider({name: "serverSettings"})});
 
 // ready to go!
 client.on('ready', () => {
-    if (!fs.existsSync(config.temp)) fs.mkdirSync(config.temp);
+    if (!fs.existsSync(`./${config.temp}`)) fs.mkdirSync(`./${config.temp}`);
     client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
 });
 
@@ -93,9 +93,8 @@ client.on('message', msg => {
             if (helpers.hasCooldown(msg.author.id)) throw "please wait a few seconds, I am trying to be a good bot for others too!";
             msg.channel.startTyping();
             // get parameters
-            let arr = {}
-                , image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : lastAttachmentUrl[msg.channel.id] // url of image attachment
-                , param, params;
+            let image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : lastAttachmentUrl[msg.channel.id] // url of image attachment
+                , param, params, arr = {};
             if (typeof c.imageOnly === 'undefined' || !c.imageOnly) {
                 params = helpers.parseParams(msg, c, cmd);
                 param = helpers.parseLine(msg, c, cmd);
@@ -119,25 +118,24 @@ client.on('message', msg => {
                         var results = /src="([^"]+)"/g.exec(body); // regex to get the very first image tag
                         msg.channel.send({ files: [results[1]] }); // send message
                     }
-                }).then(msg.channel.stopTyping(true)).catch(console.error);
+                }).then(msg.channel.stopTyping(true)).catch(err => { setTimeout(function() { throw err; }); });
             }
             // if morphFile (imagemagick) exists
             else if (typeof c.morphFile !== 'undefined' && c.morphFile) {
                 let tempName = crypto.randomBytes(4).toString('hex');
-
-                fs.open(`./temp/${tempName}.jpg`, 'w', function (err, file) {
+                fs.open(`./${config.temp}/${tempName}.jpg`, 'w', function (err, file) {
                     if (err) throw err;
                     fs.closeSync(file);
                 }); // need to do this or else imagemagick will cause an error
 
                 gm(`${image}[0]`)
-                    .morph(c.morphFile, `./temp/${tempName}.jpg`)
+                    .morph(c.morphFile, `./${config.temp}/${tempName}.jpg`)
                     .compress("JPEG")
-                    .write(`./temp/${tempName}.jpg`, function (err) {
-                        msg.channel.send({ files: [`./temp/${tempName}-1.jpg`] }).then(e => {
+                    .write(`./${config.temp}/${tempName}.jpg`, function (err) {
+                        msg.channel.send({ files: [`./${config.temp}/${tempName}-1.jpg`] }).then(e => {
                             msg.channel.stopTyping(true);
                             helpers.cleanImages(tempName);
-                        }).catch(console.error); // send message
+                        }).catch(err => { setTimeout(function() { throw err; }); }); // send message
                     });
             }
         } catch(err) {
