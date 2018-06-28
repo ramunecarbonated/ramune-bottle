@@ -43,11 +43,9 @@ module.exports =
     parseLine: function (msg, commandData, commandName) {
         let param = msg.content.replace(`${config.prefix}${commandName}`, "").trim()
             , min = (commandData.minLength || 2)
-            , max = ((commandData.maxLength || 30) * (commandData.maxArgs || 2))
-            , filteredParam = (commandData.filter) ? param.replace(/[^\w\s]/gi, '') : param
-            , length = filteredParam.length;
-        if (length < min || length > max) throw `please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
-        return filteredParam;
+            , max = ((commandData.maxLength || 30) * (commandData.maxArgs || 2));
+        if (param.length < min || param.length > max) throw `please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
+        return (commandData.filter) ? param.replace(/[^\w\s]/gi, '') : param;
     },
 
     parseParams: function (msg, commandData, commandName) {
@@ -55,10 +53,9 @@ module.exports =
             , min = (commandData.minArgs || 1)
             , max = (commandData.maxArgs || 32);
         if (param.length < 2) throw `please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
-        let params = param.split('|')
-            , count = params.length;
-        if (count < min || count > max) throw `please give me at least ${min} argument(s) and a maximum of ${max} arguments.`;
-        return (count <= 1) ? [ null ] : params.map(s => { (commandData.filter) ? s.replace(/[^\w\s]/gi, '').trim() : s.trim() });
+        let params = param.split('|');
+        if (params.length < min || params.length > max) throw `please give me at least ${min} argument(s) and a maximum of ${max} arguments.`;
+        return (params.length <= 1) ? [ null ] : params.map(s => { return (commandData.filter) ? s.replace(/[^\w\s]/gi, '').trim() : s.trim() });
     },
 
     // adds the user to the set so that they can't use commands
