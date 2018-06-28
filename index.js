@@ -76,7 +76,7 @@ client.on('message', msg => {
 
         // set username
         if (cmd === 'setusername') {
-            client.user.setUsername( msg.cleanContent.replace(`${config.prefix}${cmd}`, "") ).then(user => console.log(`My new username is ${user.username}`)).catch(console.error);
+            client.user.setUsername( msg.cleanContent.replace(`${config.prefix}${cmd}`, "") ).then(user => console.log(`My new username is ${user.username}`)).catch(silent => {});
         }
 
         // say it with me
