@@ -97,7 +97,7 @@ client.on('message', msg => {
                 , image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : lastAttachmentUrl[msg.channel.id] // url of image attachment
                 , param, params;
             if (typeof c.imageOnly === 'undefined' || !c.imageOnly) {
-                params = helpers.parseParams(msg, c, cmd)
+                params = helpers.parseParams(msg, c, cmd);
                 param = helpers.parseLine(msg, c, cmd);
             }
             // set formData
