@@ -36,7 +36,7 @@ client.on("guildDelete", guild => {
 });
 
 client.on('message', msg => {
-    if (!msg.guild) return; // only respond to messages from a guild
+    if (!helpers.isOwner(msg) && !msg.guild) return; // only respond to messages from a guild if not PM'd by bot owner
     if (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) lastAttachmentUrl[msg.channel.id] = msg.attachments.first().url; // log last attachment posted
     if (msg.author.bot) return; // don't respond to other bots or yourself
     if (msg.content.indexOf(config.prefix) !== 0) return; // only read when its prefix
