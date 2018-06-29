@@ -105,6 +105,7 @@ client.on('message', msg => {
             }
             // if postUrl exists
             if (typeof c.postUrl !== 'undefined' && c.postUrl) {
+                // TODO: move this to seperate module
                 request.post({
                     followAllRedirects: true,
                     url: c.postUrl,
@@ -122,6 +123,7 @@ client.on('message', msg => {
             }
             // if morphFile (imagemagick) exists
             else if (typeof c.morphFile !== 'undefined' && c.morphFile) {
+                // TODO: move this to seperate module
                 let tempName = crypto.randomBytes(4).toString('hex');
                 fs.open(`./${config.temp}/${tempName}.jpg`, 'w', function (err, file) {
                     if (err) throw err;
@@ -132,10 +134,10 @@ client.on('message', msg => {
                     .morph(c.morphFile, `./${config.temp}/${tempName}.jpg`)
                     .compress("JPEG")
                     .write(`./${config.temp}/${tempName}.jpg`, function (err) {
-                        msg.channel.send({ files: [`./${config.temp}/${tempName}-1.jpg`] }).then(e => {
-                            msg.channel.stopTyping(true);
-                            helpers.cleanImages(tempName);
-                        }).catch(err => { setTimeout(function() { throw err; }); }); // send message
+                        msg.channel.send({ files: [`./${config.temp}/${tempName}-1.jpg`] })
+                            .then(helpers.cleanImages(tempName);
+                            .catch(console.error)
+                            .finally(msg.channel.stopTyping(true));
                     });
             }
         } catch(err) {
