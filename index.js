@@ -135,7 +135,7 @@ client.on('message', msg => {
                     .compress("JPEG")
                     .write(`./${config.temp}/${tempName}.jpg`, function (err) {
                         msg.channel.send({ files: [`./${config.temp}/${tempName}-1.jpg`] })
-                            .then(helpers.cleanImages(tempName);
+                            .then(helpers.cleanImages(tempName));
                             .catch(console.error)
                             .finally(msg.channel.stopTyping(true));
                     });
