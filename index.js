@@ -15,7 +15,7 @@ const Discord = require('discord.js')
 
 client.login( process.env.TOKEN );
 
-client.points = new Enmap({provider: new Provider({name: "serverSettings"})});
+client.serverSettings = new Enmap({provider: new Provider({name: "serverSettings"})});
 
 // ready to go!
 client.on('ready', () => {
@@ -38,8 +38,7 @@ client.on("guildDelete", guild => {
 client.on('message', msg => {
     if (!helpers.isOwner(msg) && !msg.guild) return; // only respond to messages from a guild if not PM'd by bot owner
     if (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) lastAttachmentUrl[msg.channel.id] = msg.attachments.first().url; // log last attachment posted
-    if (msg.author.bot) return; // don't respond to other bots or yourself
-    if (msg.content.indexOf(config.prefix) !== 0) return; // only read when its prefix
+    if (msg.author.bot || msg.content.indexOf(config.prefix) !== 0) return; // don't respond to other bots or yourself and only read when its prefix
 
     const cmd = msg.content.slice(config.prefix.length).split(' ')[0].toLowerCase();
 
@@ -68,21 +67,22 @@ client.on('message', msg => {
 
     // owner only
     if (helpers.isOwner(msg)) {
+        const msgStr = msg.content.replace(`${config.prefix}${cmd}`, "");
         // set avatar
         if (cmd === 'setavatar') {
-            const url = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : msg.content.replace(`${config.prefix}${cmd}`, "").trim();
+            const url = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : msgStr;
             client.user.setAvatar(url).then(user => msg.reply('thanks for the new avatar! :blush:')).catch(silent => {});
         }
 
         // set username
         if (cmd === 'setusername') {
-            client.user.setUsername( msg.cleanContent.replace(`${config.prefix}${cmd}`, "") ).then(user => console.log(`My new username is ${user.username}`)).catch(silent => {});
+            client.user.setUsername(msgStr).then(user => console.log(`My new username is ${user.username}`)).catch(silent => {});
         }
 
         // say it with me
         if (cmd === 'say') {
             msg.delete().catch(silent => {}); // silent error if bot does not have `Manage Messages`
-            msg.channel.send( msg.cleanContent.replace(`${config.prefix}${cmd}`, "").trim() ).catch(silent => {});
+            msg.channel.send(msgStr).then().catch(silent => {});
         }
     }
 
@@ -114,31 +114,32 @@ client.on('message', msg => {
                 }, function optionalCallback(err, response, body) {
                     var errors = /error">(.*?)<\//g.exec(body); // regex to get errors from the website we post to
                     if (typeof errors !== 'undefined' && errors) {
-                        return report(errors, msg, `Something went wrong while making your image, \`${errors[1]}\``);
+                        return report(errors, msg, `something went wrong while making your image, \`${errors[1]}\``);
                     } else {
                         var results = /src="([^"]+)"/g.exec(body); // regex to get the very first image tag
-                        msg.channel.send({ files: [results[1]] }); // send message
+                        msg.channel.send({ files: [results[1]] })
+                            .catch(e => { report(e, msg, `Something went wrong while sending your image.`)}); // send message
                     }
-                }).then(msg.channel.stopTyping(true)).catch(err => { setTimeout(function() { throw err; }); });
+                }).then(msg.channel.stopTyping(true)).catch(e => { report(e, msg, `Something went wrong while making your image.`)});
             }
             // if morphFile (imagemagick) exists
             else if (typeof c.morphFile !== 'undefined' && c.morphFile) {
                 // TODO: move this to seperate module
-                let tempName = crypto.randomBytes(4).toString('hex');
+                const tempName = crypto.randomBytes(4).toString('hex');
                 fs.open(`./${config.temp}/${tempName}.jpg`, 'w', function (err, file) {
-                    if (err) throw err;
+                    if (err) return report(err, msg, `something went wrong while making your image.`);
                     fs.closeSync(file);
-                }); // need to do this or else imagemagick will cause an error
 
-                gm(`${image}[0]`)
-                    .morph(c.morphFile, `./${config.temp}/${tempName}.jpg`)
-                    .compress("JPEG")
-                    .write(`./${config.temp}/${tempName}.jpg`, function (err) {
-                        msg.channel.send({ files: [`./${config.temp}/${tempName}-1.jpg`] })
-                            .then(helpers.cleanImages(tempName));
-                            .catch(console.error)
-                            .finally(msg.channel.stopTyping(true));
-                    });
+                    gm(`${image}[0]`)
+                        .morph(c.morphFile, `./${config.temp}/${tempName}.jpg`)
+                        .compress("JPEG")
+                        .write(`./${config.temp}/${tempName}.jpg`, function (err) {
+                            // if (err) return report(err, msg, `Something went wrong while making your image.`);
+                            msg.channel.send({ files: [`./${config.temp}/${tempName}-1.jpg`] })
+                                .then(s => { helpers.cleanImages(tempName); msg.channel.stopTyping(true); })
+                                .catch(e => { report(e, msg, `Something went wrong while sending your image.`) });
+                        });
+                }); // need to do this or else imagemagick will cause an error
             }
         } catch(err) {
             report(err, msg);
