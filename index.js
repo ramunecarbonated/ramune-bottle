@@ -136,8 +136,14 @@ client.on('message', msg => {
                         .write(`./${config.temp}/${tempName}.jpg`, function (err) {
                             // if (err) return report(err, msg, `Something went wrong while making your image.`);
                             msg.channel.send({ files: [`./${config.temp}/${tempName}-1.jpg`] })
-                                .then(s => { helpers.cleanImages(tempName); msg.channel.stopTyping(true); })
-                                .catch(e => { report(e, msg, `Something went wrong while sending your image.`) });
+                                .then(s => {
+                                    helpers.cleanImages(tempName);
+                                    msg.channel.stopTyping(true);
+                                })
+                                .catch(e => {
+                                    report(e, msg, `Something went wrong while sending your image.`);
+                                    if (!fs.existsSync(`./${config.temp}`)) fs.mkdirSync(`./${config.temp}`);
+                                });
                         });
                 }); // need to do this or else imagemagick will cause an error
             }
