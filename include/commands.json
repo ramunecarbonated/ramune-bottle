@@ -286,6 +286,15 @@
             "text": "param"
         }
     },
+    "xmashat": {
+        "usage": "[image with face]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/xmas_cap?server=2",
+        "data": {
+            "image": "image || ''",
+            "color": "red"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
