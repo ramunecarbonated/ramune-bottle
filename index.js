@@ -143,7 +143,7 @@ client.on('message', msg => {
                                     msg.channel.stopTyping(true);
                                 })
                                 .catch(e => {
-                                    report(e, msg, `Something went wrong while sending your image.`);
+                                    report(e, msg, `something went wrong while sending your image. it is very likely that I lost the file stream, I am hosted on a cheap node after all.`);
                                     if (!fs.existsSync(`./${config.temp}`)) fs.mkdirSync(`./${config.temp}`);
                                 });
                         });
