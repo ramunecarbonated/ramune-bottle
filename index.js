@@ -124,6 +124,8 @@ client.on('message', msg => {
             }
             // if morphFile (imagemagick) exists
             else if (typeof c.morphFile !== 'undefined' && c.morphFile) {
+                // no image found
+                if (typeof image === 'undefined' || !image) throw "couldn't find an image to use, you need to directly upload an image. (i can use that and any previous images without requiring an upload after)";
                 // TODO: move this to seperate module
                 const tempName = crypto.randomBytes(4).toString('hex');
                 fs.open(`./${config.temp}/${tempName}.jpg`, 'w', function (err, file) {

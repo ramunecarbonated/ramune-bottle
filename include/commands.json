@@ -8,7 +8,7 @@
         }
     },
     "retro": {
-        "usage": "[text1 | <text2> | <text3> (very bad utf-8 support)]",
+        "usage": "[text1 | <text2> | <text3> (only a-z)]",
         "filter": true,
         "maxArgs": 3,
         "postUrl": "https://m.photofunia.com/categories/all_effects/retro-wave?server=2",
@@ -56,7 +56,7 @@
         }
     },
     "cemetery": {
-        "usage": "[text (very bad utf-8 support)]",
+        "usage": "[text (only a-z)]",
         "filter": true,
         "maxLength": 20,
         "postUrl": "https://m.photofunia.com/categories/all_effects/cemetery-gates?server=2",
@@ -83,7 +83,7 @@
         }
     },
     "trump": {
-        "usage": "[attachment] [text]",
+        "usage": "[image] [text]",
         "postUrl": "https://m.photofunia.com/categories/all_effects/trump?server=2",
         "data": {
             "image": "image || ''",
@@ -92,7 +92,7 @@
         }
     },
     "valentine": {
-        "usage": "[attachment] [text]",
+        "usage": "[image] [text]",
         "postUrl": "https://m.photofunia.com/categories/all_effects/be_my_valentine?server=2",
         "data": {
             "image": "image || ''",
@@ -100,7 +100,7 @@
         }
     },
     "picadilly": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/picadilly_circus?server=2",
         "data": {
@@ -108,7 +108,7 @@
         }
     },
     "rushmore": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/mount_rushmore?server=2",
         "data": {
@@ -116,7 +116,7 @@
         }
     },
     "obama": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/obama?server=2",
         "data": {
@@ -124,7 +124,7 @@
         }
     },
     "makeup": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/applying_makeup?server=2",
         "data": {
@@ -132,7 +132,7 @@
         }
     },
     "fbi": {
-        "usage": "[attachment] [text]",
+        "usage": "[image] [text]",
         "postUrl": "https://m.photofunia.com/categories/all_effects/fbi_agent?server=2",
         "data": {
             "image": "image || ''",
@@ -141,7 +141,7 @@
         }
     },
     "tablet": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/tablet?server=2",
         "data": {
@@ -149,7 +149,7 @@
         }
     },
     "news": {
-        "usage": "[attachment] [title | headline | <channel>]",
+        "usage": "[image] [title | headline | <channel>]",
         "minArgs": 2,
         "maxArgs": 3,
         "postUrl": "https://m.photofunia.com/categories/all_effects/breaking-news?server=2",
@@ -161,7 +161,7 @@
         }
     },
     "press": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/press_conference?server=2",
         "data": {
@@ -169,7 +169,7 @@
         }
     },
     "goats": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/goats?server=2",
         "data": {
@@ -188,7 +188,7 @@
         }
     },
     "gallery": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/gallery-visitors?server=2",
         "data": {
@@ -196,7 +196,7 @@
         }
     },
     "museum": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/louvre?server=2",
         "data": {
@@ -204,7 +204,7 @@
         }
     },
     "knight": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/knight-with-sword?server=2",
         "data": {
@@ -212,7 +212,7 @@
         }
     },
     "cinema": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/in-the-cinema?server=2",
         "data": {
@@ -220,7 +220,7 @@
         }
     },
     "readingcat": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/smart_kitty?server=2",
         "data": {
@@ -228,7 +228,7 @@
         }
     },
     "oldbook": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/old_book?server=2",
         "data": {
@@ -236,32 +236,32 @@
         }
     },
     "police": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "morphFile": "http://pomf.ramune.me/files/rlezrkq.png"
     },
     "pride": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "morphFile": "http://pomf.ramune.me/files/wwzgkma.png"
     },
     "despacito": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "morphFile": "http://pomf.ramune.me/files/hfwanss.png"
     },
     "nazi": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "morphFile": "https://pomf.ramune.me/files/jokblip.png"
     },
     "israel": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "morphFile": "http://pomf.ramune.me/files/oqzdblh.png"
     },
     "jew": {
-        "usage": "[attachment]",
+        "usage": "[image]",
         "imageOnly": true,
         "morphFile": "http://pomf.ramune.me/files/sdqkcis.png"
     }
