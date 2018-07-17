@@ -295,6 +295,14 @@
             "color": "red"
         }
     },
+    "coffee": {
+        "usage": "[image]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/latte-art?server=2",
+        "data": {
+            "image": "image || ''"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
