@@ -270,6 +270,14 @@
             "eyes": "blue"
         }
     },
+    "communist": {
+        "usage": "[image with face] [text]",
+        "postUrl": "https://m.photofunia.com/categories/all_effects/volunteer?server=2",
+        "data": {
+            "image": "image || ''",
+            "text": "param"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
