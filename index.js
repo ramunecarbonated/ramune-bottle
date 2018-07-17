@@ -52,7 +52,7 @@ client.on('message', msg => {
 
         // if send thru text channel, ping them to check pms
         msg.reply(`check your private messages!`).then(msg => { setTimeout(() => { msg.delete(); }, 5000); });
-        msg.author.send("Here are my commands:\n```css\n" + output + "```\nGot a suggestion, found or a bug or interested in the source? Visit the GitHub repo: https://github.com/ramunecarbonated/ramune-bottle/");
+        msg.author.send("Here are my commands, use `|` to seperate parameters:\n```css\n" + output + "```\n`image` means a direct image upload or a previously posted image, no URLs.\nParameters in `<>` means they are optional.\n\nGitHub repo: https://github.com/ramunecarbonated/ramune-bottle/");
     }
 
     // ping: post initial message and edit it later with delay in ms
