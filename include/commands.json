@@ -235,6 +235,14 @@
             "image": "image || ''"
         }
     },
+    "polaroid": {
+        "usage": "[image] [text]",
+        "postUrl": "https://m.photofunia.com/categories/all_effects/instant_camera?server=2",
+        "data": {
+            "image": "image || ''",
+            "text": "param"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
