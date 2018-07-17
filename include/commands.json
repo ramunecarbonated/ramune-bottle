@@ -261,6 +261,15 @@
             "orientation": "center"
         }
     },
+    "anime": {
+        "usage": "[image with face]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/anime?server=2",
+        "data": {
+            "image": "image || ''",
+            "eyes": "blue"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
