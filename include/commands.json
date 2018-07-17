@@ -252,6 +252,15 @@
             "animation": "icon"
         }
     },
+    "leprechaun": {
+        "usage": "[image with face]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/leprechaun-hat?server=2",
+        "data": {
+            "image": "image || ''",
+            "orientation": "center"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
