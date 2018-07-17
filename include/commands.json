@@ -278,6 +278,14 @@
             "text": "param"
         }
     },
+    "fortunecookie": {
+        "usage": "[text]",
+        "maxLength": 40,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/fortune-cookie?server=2",
+        "data": {
+            "text": "param"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
