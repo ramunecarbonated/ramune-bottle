@@ -204,7 +204,7 @@
         }
     },
     "knight": {
-        "usage": "[image]",
+        "usage": "[image with face]",
         "imageOnly": true,
         "postUrl": "https://m.photofunia.com/categories/all_effects/knight-with-sword?server=2",
         "data": {
@@ -258,7 +258,7 @@
         "postUrl": "https://m.photofunia.com/categories/all_effects/leprechaun-hat?server=2",
         "data": {
             "image": "image || ''",
-            "orientation": "center"
+            "orientation": "'center'"
         }
     },
     "anime": {
@@ -267,7 +267,7 @@
         "postUrl": "https://m.photofunia.com/categories/all_effects/anime?server=2",
         "data": {
             "image": "image || ''",
-            "eyes": "blue"
+            "eyes": "'blue'"
         }
     },
     "communist": {
@@ -292,7 +292,7 @@
         "postUrl": "https://m.photofunia.com/categories/all_effects/xmas_cap?server=2",
         "data": {
             "image": "image || ''",
-            "color": "red"
+            "color": "'red'"
         }
     },
     "coffee": {
@@ -309,7 +309,7 @@
         "postUrl": "https://m.photofunia.com/categories/all_effects/birthday-party?server=2",
         "data": {
             "image": "image || ''",
-            "confetti": "on"
+            "confetti": "'on'"
         }
     },
     "vhs": {
