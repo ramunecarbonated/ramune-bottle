@@ -105,6 +105,7 @@ client.on('message', msg => {
             }
             // if postUrl exists
             if (typeof c.postUrl !== 'undefined' && c.postUrl) {
+                if (arr['image'].length < 1) throw "couldn't find an image to use, you need to directly upload an image. (i can use that and any previous images without requiring an upload after)";
                 // TODO: move this to seperate module
                 request.post({
                     followAllRedirects: true,
