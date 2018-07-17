@@ -243,6 +243,15 @@
             "text": "param"
         }
     },
+    "burning": {
+        "usage": "[image]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/burning_photo?server=2",
+        "data": {
+            "image": "image || ''",
+            "animation": "icon"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
