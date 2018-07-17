@@ -328,6 +328,14 @@
             "image": "image || ''"
         }
     },
+    "fatten": {
+        "usage": "[image with face]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/fat_maker?server=2",
+        "data": {
+            "image": "image || ''"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
