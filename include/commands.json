@@ -312,6 +312,14 @@
             "confetti": "on"
         }
     },
+    "vhs": {
+        "usage": "[image]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/vhs?server=2",
+        "data": {
+            "image": "image || ''"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
