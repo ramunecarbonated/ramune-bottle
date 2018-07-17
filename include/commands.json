@@ -303,6 +303,15 @@
             "image": "image || ''"
         }
     },
+    "confetti": {
+        "usage": "[image with face]",
+        "imageOnly": true,
+        "postUrl": "https://m.photofunia.com/categories/all_effects/birthday-party?server=2",
+        "data": {
+            "image": "image || ''",
+            "confetti": "on"
+        }
+    },
     "police": {
         "usage": "[image]",
         "imageOnly": true,
