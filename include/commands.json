@@ -177,7 +177,8 @@
         }
     },
     "keepcalm": {
-        "usage": "[<text1> | <text2>]",
+        "usage": "[line below 'AND' | last line]",
+        "minArgs": 2,
         "postUrl": "https://m.photofunia.com/categories/all_effects/keep_calm?server=2",
         "data": {
             "line1" : "'KEEP'",
