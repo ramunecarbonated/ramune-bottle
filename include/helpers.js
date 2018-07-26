@@ -44,7 +44,7 @@ module.exports =
         let param = msg.content.replace(`${config.prefix}${commandName}`, "").trim()
             , min = (commandData.minLength || 2)
             , max = ((commandData.maxLength || 30) * (commandData.maxArgs || 2));
-        if (param.length < min || param.length > max) throw `please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
+        if (param.length < min || param.length > max) throw `this command requires at least ${min} letter(s) and only allows for a maximum of ${max} letters input from the user.`;
         return (commandData.filter) ? param.replace(/[^\w\s]/gi, '') : param;
     },
 
@@ -52,9 +52,9 @@ module.exports =
         let param = msg.content.replace(`${config.prefix}${commandName}`, "").trim()
             , min = (commandData.minArgs || 1)
             , max = (commandData.maxArgs || 32);
-        if (param.length < 2) throw `please give me at least ${min} letter(s) and a maximum of ${max} letters.`;
+        if (param.length < 2) throw `this command requires text input from the user.`;
         let params = param.split('|');
-        if (params.length < min || params.length > max) throw `please give me at least ${min} argument(s) and a maximum of ${max} arguments.`;
+        if (params.length < min || params.length > max) throw `this command requires a minimum of ${min} argument(s) and a maximum of ${max} arguments from the user.`;
         return (params.length <= 1) ? [ null ] : params.map(s => { return (commandData.filter) ? s.replace(/[^\w\s]/gi, '').trim() : s.trim() });
     },
 
