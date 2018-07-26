@@ -65,8 +65,3 @@ module.exports =
     }
 
 };
-
-// Private variables and functions which will not be accessible outside this file
-var privateFunction = function ()
-{
-};
