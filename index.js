@@ -17,21 +17,21 @@ client.login( process.env.TOKEN );
 // ready to go!
 client.on('ready', () => {
     if (!fs.existsSync(`./${config.temp}`)) fs.mkdirSync(`./${config.temp}`);
-    client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
+    client.user.setActivity(`${client.guilds.size} servers | ${config.prefix}helpme`, { type: 'WATCHING' });
 });
 
 // the bot joins a guild.
 client.on("guildCreate", guild => {
     client.users.get(config.sasch).send(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-    client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
+    client.user.setActivity(`${client.guilds.size} servers | ${config.prefix}helpme`, { type: 'WATCHING' });
 });
 
 // the bot is kicked from a guild :(
 client.on("guildDelete", guild => {
     client.users.get(config.sasch).send(`I have been removed from: ${guild.name} (id: ${guild.id})`);
     console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
-    client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
+    client.user.setActivity(`${client.guilds.size} servers | ${config.prefix}helpme`, { type: 'WATCHING' });
 });
 
 client.on('message', msg => {
@@ -48,7 +48,7 @@ client.on('message', msg => {
     const cmd = msg.content.slice(config.prefix.length).split(' ')[0].toLowerCase();
 
     // help: HELP ME
-    if (cmd === 'help') {
+    if (cmd === 'helpme') {
         const cmds = Object.keys(commands).sort((a, b) => a.localeCompare(b));
         let output = "";
         for (i in cmds) {
