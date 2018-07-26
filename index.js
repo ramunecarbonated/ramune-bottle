@@ -150,7 +150,7 @@ client.on('message', msg => {
                         .morph(c.morphFile, `./${config.temp}/${tempName}.jpg`)
                         .compress("JPEG")
                         .write(`./${config.temp}/${tempName}.jpg`, function (err) {
-                            // if (err) return report(err, msg, `Something went wrong while making your image.`);
+                            if (err) return report(err, msg, `Something went wrong while making your image.`);
                             msg.channel.send({ files: [`./${config.temp}/${tempName}-1.jpg`] })
                                 .then(s => {
                                     helpers.cleanImages(tempName);
