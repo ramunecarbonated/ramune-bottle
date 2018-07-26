@@ -57,13 +57,21 @@ client.on('message', msg => {
 
         // if send thru text channel, ping them to check pms
         msg.reply(`check your private messages!`).catch(silent => {});
-        msg.author.send("Here are my commands, use `|` to seperate parameters:\n```css\n" + output + "```\n`image` means a direct image upload or a previously posted image, no URLs.\nParameters in `<>` means they are optional.\n\nInvite link: https://discordapp.com/oauth2/authorize?client_id=328968948894662666&scope=bot&permissions=117824");
+        msg.author.send("Here are my commands, use `|` to seperate parameters:\n```css\n" + output + "```\n`image` means a direct image upload or a previously posted image `(-lastimage)`, no URLs.\nParameters in `<>` means they are optional.\n\nInvite link: https://discordapp.com/oauth2/authorize?client_id=328968948894662666&scope=bot&permissions=117824");
     }
 
     // ping: post initial message and edit it later with delay in ms
     if (cmd === 'ping') {
         const start = Date.now();
         msg.reply(`pong!`).then(msg => { msg.edit(`pong! (delay: ${Date.now() - start}ms)`); });
+    }
+
+    if (cmd === 'lastimage') {
+        if (typeof lastAttachmentUrl[msg.channel.id] !== 'undefined') {
+            msg.reply(`last image posted on this channel: ${lastAttachmentUrl[msg.channel.id]}`).catch(silent => {});
+        } else {
+            msg.reply('no image was found from this channel.').catch(silent => {});
+        }
     }
 
     // logging
