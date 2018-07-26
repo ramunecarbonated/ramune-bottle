@@ -249,7 +249,7 @@
         "postUrl": "https://m.photofunia.com/categories/all_effects/burning_photo?server=2",
         "data": {
             "image": "image || ''",
-            "animation": "icon"
+            "animation": "'icon'"
         }
     },
     "leprechaun": {
