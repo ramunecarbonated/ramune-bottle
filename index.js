@@ -4,7 +4,6 @@ const Discord = require('discord.js')
     , config = require('./include/config')
     , commands = require('./include/commands.json') // TODO: if this gets big, put in async
     , crypto = require("crypto")
-    , Enmap = require("enmap")
     , fs = require('fs')
     , gm = require('gm').subClass({imageMagick: true})
     , helpers = require('./include/helpers')
@@ -15,8 +14,6 @@ const Discord = require('discord.js')
 
 client.login( process.env.TOKEN );
 
-client.serverSettings = new Enmap({provider: new Provider({name: "serverSettings"})});
-
 // ready to go!
 client.on('ready', () => {
     if (!fs.existsSync(`./${config.temp}`)) fs.mkdirSync(`./${config.temp}`);
@@ -25,21 +22,29 @@ client.on('ready', () => {
 
 // the bot joins a guild.
 client.on("guildCreate", guild => {
+    client.users.get(config.sasch).send(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
     console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
     client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
 });
 
 // the bot is kicked from a guild :(
 client.on("guildDelete", guild => {
+    client.users.get(config.sasch).send(`I have been removed from: ${guild.name} (id: ${guild.id})`);
     console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
     client.user.setActivity(`${client.guilds.size} servers. Use ${config.prefix}help.`, { type: 'WATCHING' });
 });
 
 client.on('message', msg => {
-    if (!helpers.isOwner(msg) && !msg.guild) return; // only respond to messages from a guild if not PM'd by bot owner
-    if (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) lastAttachmentUrl[msg.channel.id] = msg.attachments.first().url; // log last attachment posted
-    if (msg.author.bot || msg.content.indexOf(config.prefix) !== 0) return; // don't respond to other bots or yourself and only read when its prefix
+    // only respond to messages from a guild if not PM'd by bot owner
+    if (!helpers.isOwner(msg) && !msg.guild) return;
 
+    // log last attachment posted, yes, this also includes stuff from bots, that's intended
+    if (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) lastAttachmentUrl[msg.channel.id] = msg.attachments.first().url;
+
+    // don't respond to other bots or don't respond to users who don't use the prefix
+    if (msg.author.bot || msg.content.indexOf(config.prefix) !== 0) return;
+
+    // slice and split up stuff
     const cmd = msg.content.slice(config.prefix.length).split(' ')[0].toLowerCase();
 
     // help: HELP ME
@@ -51,8 +56,8 @@ client.on('message', msg => {
         }
 
         // if send thru text channel, ping them to check pms
-        msg.reply(`check your private messages!`).then(msg => { setTimeout(() => { msg.delete(); }, 5000); });
-        msg.author.send("Here are my commands, use `|` to seperate parameters:\n```css\n" + output + "```\n`image` means a direct image upload or a previously posted image, no URLs.\nParameters in `<>` means they are optional.\n\nGitHub repo: https://github.com/ramunecarbonated/ramune-bottle/");
+        msg.reply(`check your private messages!`).catch(silent => {});
+        msg.author.send("Here are my commands, use `|` to seperate parameters:\n```css\n" + output + "```\n`image` means a direct image upload or a previously posted image, no URLs.\nParameters in `<>` means they are optional.\n\nInvite link: https://discordapp.com/oauth2/authorize?client_id=328968948894662666&scope=bot&permissions=117824");
     }
 
     // ping: post initial message and edit it later with delay in ms
