@@ -67,4 +67,5 @@ typings/
 .serverless
 
 # VSCode workspaces
-.code-workspace
+.vscode
+*.code-workspace
