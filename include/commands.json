@@ -366,6 +366,10 @@
         "usage": "[image]",
         "imageOnly": true,
         "morphFile": "http://pomf.ramune.me/files/sdqkcis.png"
+  "implode": {
+    "noText": true,
+    "usage": "[image]"
+  },
   "chef": {
     "usage": "[image with face]",
     "noText": true,
