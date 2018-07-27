@@ -22,8 +22,6 @@
   },
   "dependencies": {
     "discord.js": "^11.3.2",
-    "enmap": "^2.6.3",
-    "enmap-sqlite": "^2.0.3",
     "gm": "^1.23.1",
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5"
