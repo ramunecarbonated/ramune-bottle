@@ -367,4 +367,13 @@
         "imageOnly": true,
         "morphFile": "http://pomf.ramune.me/files/sdqkcis.png"
     }
+  "zombie": {
+    "usage": "[image with face]",
+    "noText": true,
+    "url": "https://m.photofunia.com/categories/all_effects/zombie?server=2",
+    "data": {
+      "image": "image || ''",
+      "type": "helper.getRandomInt(1, 3)"
+    }
+  }
 }
