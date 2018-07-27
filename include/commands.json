@@ -366,6 +366,14 @@
         "usage": "[image]",
         "imageOnly": true,
         "morphFile": "http://pomf.ramune.me/files/sdqkcis.png"
+  "bunny": {
+    "usage": "[image with face]",
+    "noText": true,
+    "url": "https://m.photofunia.com/categories/all_effects/bunny_ears?server=2",
+    "data": {
+      "image": "image || ''"
+    }
+  },
   "crown": {
     "usage": "[image with face]",
     "noText": true,
