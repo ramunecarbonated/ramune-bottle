@@ -366,7 +366,15 @@
         "usage": "[image]",
         "imageOnly": true,
         "morphFile": "http://pomf.ramune.me/files/sdqkcis.png"
+  "alien": {
+    "usage": "[image with face]",
+    "noText": true,
+    "url": "https://m.photofunia.com/categories/all_effects/alien?server=2",
+    "data": {
+      "image": "image || ''",
+      "skin": "'on'"
     }
+  },
   "zombie": {
     "usage": "[image with face]",
     "noText": true,
