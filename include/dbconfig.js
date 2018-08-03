@@ -60,7 +60,7 @@ module.exports =
   },
 
   saveSettingForGuild: function (guildId) {
-    (this.connection).query('UPDATE `settings` SET json = ?', [JSON.stringify(this.guildSettings[guildId])], (error, results) => {
+    (this.connection).query('UPDATE `settings` SET json = ? WHERE `guild` = ?', [JSON.stringify(this.guildSettings[guildId]), guildId], (error, results) => {
       if (!error) {
         console.log(`Save for ${guildId} successful.`);
         console.log(this.guildSettings[guildId]);
