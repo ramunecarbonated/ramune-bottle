@@ -24,7 +24,7 @@ module.exports =
     this.guildSettings[guildId] = this.defaultSettings; // solves possible sql errors and allows usage of commands without waiting
     (this.connection).query('SELECT json FROM `settings` WHERE `guild` = ?', [guildId], (error, results) => {
       if (!error) {
-        if (typeof results === 'undefined' || v(results).json.length == 0) {
+        if (typeof results === 'undefined' || typeof v(results) === 'undefined' ) {
           this.insertGuild(guildId);
           console.log(`No configuration settings found for ${guildId}, making them on the go.`);
         } else {
