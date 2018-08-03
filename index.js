@@ -1,7 +1,6 @@
 // * index.js: The heart and soul.
 
 // requires and all that jazz
-const config = require('./include/config');
 const commands = require('./include/commands.json');
 const db = require('./include/dbconfig');
 const fs = require('fs');
