@@ -1,180 +1,176 @@
-// requires and all that jazz
-const Discord = require('discord.js')
-    , client = new Discord.Client()
-    , config = require('./include/config')
-    , commands = require('./include/commands.json') // TODO: if this gets big, put in async
-    , crypto = require("crypto")
-    , fs = require('fs')
-    , gm = require('gm').subClass({imageMagick: true})
-    , helpers = require('./include/helpers')
-    , lastAttachmentUrl = []
-    , path = require('path')
-    , Provider = require("enmap-sqlite")
-    , request = require('request-promise-native');
+// * index.js: The heart and soul.
 
-client.login( process.env.TOKEN );
+// requires and all that jazz
+const config = require('./include/config');
+const commands = require('./include/commands.json');
+const db = require('./include/dbconfig');
+const fs = require('fs');
+const helper = require('./include/helpers');
+const magick = require('./include/imagemagick');
+const funia = require('./include/photofunia');
+
+// discord library
+const Discord = require('discord.js'); 
+const client = new Discord.Client();
 
 // ready to go!
 client.on('ready', () => {
-    if (!fs.existsSync(`./${config.temp}`)) fs.mkdirSync(`./${config.temp}`);
-    client.user.setActivity(`${client.guilds.size} servers | ${config.prefix}helpme`, { type: 'WATCHING' });
+  // make sure temporary folder exists, heroku 'n all
+  if (!fs.existsSync(`./${process.env.TEMP_DIR}`)) fs.mkdirSync(`./${process.env.TEMP_DIR}`);
+
+  console.log('connected to discord, hee hoo');
+  helper.setClientInHelper(client); // transfer client to helper module
+  client.user.setActivity(`${client.guilds.size} servers | ${process.env.PREFIX}helpme`, { type: 'WATCHING' });
 });
 
-// the bot joins a guild.
-client.on("guildCreate", guild => {
-    client.users.get(config.sasch).send(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-    console.log(`New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-    client.user.setActivity(`${client.guilds.size} servers | ${config.prefix}helpme`, { type: 'WATCHING' });
+// the bot joins a guild
+client.on('guildCreate', guild => {
+  let output = `New guild joined: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`;
+  helper.sasch(client).send(output);
+  console.log(output);
+  client.user.setActivity(`${client.guilds.size} servers | ${process.env.PREFIX}helpme`, { type: 'WATCHING' });
+  db.insertGuild(guild.id); // add guild to database
 });
 
-// the bot is kicked from a guild :(
-client.on("guildDelete", guild => {
-    client.users.get(config.sasch).send(`I have been removed from: ${guild.name} (id: ${guild.id})`);
-    console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
-    client.user.setActivity(`${client.guilds.size} servers | ${config.prefix}helpme`, { type: 'WATCHING' });
+// the bot is kicked from a guild
+client.on('guildDelete', guild => {
+  let output = `I have been removed from: ${guild.name} (id: ${guild.id})`;
+  helper.sasch(client).send(output);
+  console.log(output);
+  client.user.setActivity(`${client.guilds.size} servers | ${process.env.PREFIX}helpme`, { type: 'WATCHING' });
+  db.removeGuild(guild.id); // remove guild from database
 });
 
+// someone starts typing
+client.on('typingStart', (channel, user) => {
+  if (channel.type == 'text' && typeof db.guildSettings[channel.guild.id] === 'undefined') {
+    db.fetchSettingForGuild(channel.guild.id);
+    console.log(`${user.username}#${user.discriminator} (${user.id}) triggered setting fetch for ${channel.guild.name} (${channel.guild.id})`);
+  }
+});
+
+// someone posts a message
 client.on('message', msg => {
-    // only respond to messages from a guild if not PM'd by bot owner
-    if (!helpers.isOwner(msg) && !msg.guild) return;
+  // only respond to messages from a guild if not PM'd by bot owner
+  if (!helper.isOwner(msg) && !msg.guild) return;
 
-    // log last attachment posted, yes, this also includes stuff from bots, that's intended
-    if (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) lastAttachmentUrl[msg.channel.id] = msg.attachments.first().url;
+  // log last attachment posted from anything, this also includes stuff from bots
+  helper.lastImageSet(msg);
 
-    // don't respond to other bots or don't respond to users who don't use the prefix
-    if (msg.author.bot || msg.content.indexOf(config.prefix) !== 0) return;
+  // don't respond to other bots or don't respond to users who don't use the prefix
+  if (msg.author.bot || msg.content.indexOf(process.env.PREFIX) !== 0) return;
 
-    // slice and split up stuff
-    const cmd = msg.content.slice(config.prefix.length).split(' ')[0].toLowerCase();
+  // slice and split up stuff
+  const cmd = msg.content.slice(process.env.PREFIX.length).split(' ')[0].toLowerCase();
+  const msgString = msg.content.replace(`${process.env.PREFIX}${cmd}`, '').trim();
+  
+  // help: HELP MEeeeee
+  if (cmd === 'helpme') {
+    helper.makeHelpEmbed(msg);
+  }
 
-    // help: HELP ME
-    if (cmd === 'helpme') {
-        const cmds = Object.keys(commands).sort((a, b) => a.localeCompare(b));
-        let output = "";
-        for (i in cmds) {
-            output += `${cmds[i]}: ${commands[cmds[i]]['usage']}\n`
-        }
+  // get last image posted in this channel
+  if (cmd === 'lastimage') {
+    const image = helper.lastImageGet(msg.channel.id);
+    const embed = helper.embed().setImage(image);
+    msg.channel.send((image) ? { embed } : 'no image was found or remembered from this channel.').catch(() => { });
+  }
 
-        // if send thru text channel, ping them to check pms
-        msg.reply(`check your private messages!`).catch(silent => {});
-        msg.author.send("Here are my commands, use `|` to seperate parameters:\n```css\n" + output + "```\n`image` means a direct image upload or a previously posted image `(use -lastimage if you are unsure)`, no URLs.\nParameters in `<>` means they are optional.\n\nInvite link: https://discordapp.com/oauth2/authorize?client_id=328968948894662666&scope=bot&permissions=117824");
+  // ping: post initial message and edit it later with delay in ms
+  if (cmd === 'ping') {
+    const start = Date.now();
+    msg.channel.send('pong! _(calculating..)_').then(msg => {
+      msg.edit(`pong! (api delay: ${Date.now() - start}ms)`);
+    });
+  }
+
+  if (cmd === 'config') {
+    const embed = helper.embed();
+    if (msgString.length < 1) {
+      Object.keys(db.getAllSettings(msg.guild.id)).forEach(function (k) {
+        embed.addField(k, db.getSetting(msg.guild.id, k));
+      });
+    } else {
+      const setting = db.getSetting(msg.guild.id, msgString);
+      if (typeof setting !== 'undefined') {
+        embed.addField(msgString, `~~${setting}~~ **${!setting}**`);
+        db.toggleSetting(msg.guild.id, msgString); console.log('hi');
+      } else {
+        embed.addField('Unknown config setting!', `Try \`${process.env.PREFIX}config\` without arguments for a list of configurable settings for this bot.`);
+      }
     }
 
-    // ping: post initial message and edit it later with delay in ms
-    if (cmd === 'ping') {
-        const start = Date.now();
-        msg.reply(`pong!`).then(msg => { msg.edit(`pong! (delay: ${Date.now() - start}ms)`); });
+    // add notice that config can be modified if you have the permissions to do so
+    if (msg.member.hasPermission('MANAGE_GUILD') || helper.isOwner(msg.author.id)) {
+      embed.setFooter(`Toggle a configuration setting by typing \`${process.env.PREFIX}config\` with the full name of the setting, requires \`Manage Server\` or \`Bot Owner\`.`);
     }
 
-    if (cmd === 'lastimage') {
-        if (typeof lastAttachmentUrl[msg.channel.id] !== 'undefined') {
-            msg.reply(`last image posted on this channel: ${lastAttachmentUrl[msg.channel.id]}`).catch(silent => {});
-        } else {
-            msg.reply('no image was found from this channel.').catch(silent => {});
-        }
+    msg.channel.send({ embed }).catch(() => { });
+  }
+
+  // owner only
+  if (helper.isOwner(msg.author.id)) {
+    // say it with me
+    if (cmd === 'eval') {
+      try {
+        let output = eval(msgString);
+        output = (typeof output !== 'string') ? require('util').inspect(output) : output;
+        // could be promise, could be something useful, but whatever :o
+        msg.channel.send(output.substring(0, 1990), { code: 'xl' }).catch(() => { });
+      } catch (err) {
+        // get only one line of the error, it's enough most of the time
+        msg.channel.send(err.toString().split('\n')[0]).catch(() => {});
+      }
     }
+  }
 
-    // logging
-    // if (msg.channel.type == "dm") console.log(`PM with ${msg.channel.recipient.username}#${msg.channel.recipient.discriminator}<${msg.channel.recipient.id}> | ${msg.author.username}#${msg.author.discriminator}<${msg.author.id}>: ${msg.content}`);
-    // else if (msg.channel.type == "text") console.log(`${msg.channel.guild.name}<#${msg.channel.name}> | ${msg.author.username}#${msg.author.discriminator}<${msg.author.id}>: ${msg.content}`);
+  // loop through json-loaded commands
+  if (typeof commands[cmd] !== 'undefined' && commands[cmd]) {
+    const command = commands[cmd];
+    try {
+      // is command opt-in?
+      if (typeof command.optIn !== 'undefined' && db.getSetting(msg.guild.id, 'All Commands') != true) throw `this command requires you to set \`All Commands\` to \`true\` due to the offensive nature of it's usage, users with \`Manage Server\` or \`Bot Owner\` can toggle this setting with \`${process.env.PREFIX}config All Commands\`.`;
+      // cooldown protection
+      if (helper.cooldownGet(msg.author.id)) throw 'please wait a few seconds between command usage.';
 
-    // owner only
-    if (helpers.isOwner(msg)) {
-        const msgStr = msg.content.replace(`${config.prefix}${cmd}`, "");
-        // set avatar
-        if (cmd === 'setavatar') {
-            const url = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : msgStr;
-            client.user.setAvatar(url).then(user => msg.reply('thanks for the new avatar! :blush:')).catch(silent => {});
-        }
+      // parameters
+      const image = helper.lastImageGet(msg.channel.id);
+      const params = (typeof command.noText === 'undefined' || !command.noText) ? helper.parseParams(msgString, command) : {};
+      const param = (typeof command.noText === 'undefined' || !command.noText) ? helper.parseLine(msgString, command) : {};
 
-        // set username
-        if (cmd === 'setusername') {
-            client.user.setUsername(msgStr).then(user => console.log(`My new username is ${user.username}`)).catch(silent => {});
-        }
+      // set formData
+      let arr = {};
+      for (let i in command.data) {
+        arr[i] = eval('(' + command.data[i] + ' || \'\')'); // forgive me, for i have sinned very, very heavily
+      } console.log([cmd, `${msg.author.username}#${msg.author.discriminator} (${msg.author.id})`, `${msg.guild.name} (${msg.guild.id})`, arr]);
 
-        // say it with me
-        if (cmd === 'say') {
-            msg.delete().catch(silent => {}); // silent error if bot does not have `Manage Messages`
-            msg.channel.send(msgStr).then().catch(silent => {});
-        }
+      // image check goes here, if a command uses an image
+      if (typeof arr['image'] !== 'undefined' && !arr['image']) {
+        throw 'could not find an image to use, you need to directly upload an image in this channel.';
+      }
+      // if url exists and includes photofunia
+      if (typeof command.funiaUrl !== 'undefined') {
+        funia.doPost(command, arr, msg);
+      }
+      // if morph (imagemagick)
+      if (typeof command.morph !== 'undefined') {
+        magick.doMorph(command, image, msg);
+      }
+      // if append below (imagemagick)
+      if (typeof command.appendBelow !== 'undefined') {
+        magick.doAppend(command, image, msg);
+      }
+
+    } catch(err) {
+      helper.reportError(err, msg);
+    } finally {
+      helper.usedCommand = helper.cooldownSet(msg.author.id); // add to cooldown set
     }
-
-    // loop through json-loaded commands
-    if (typeof commands[cmd] !== 'undefined' && commands[cmd]) {
-        const c = commands[cmd];
-        try {
-            if (helpers.hasCooldown(msg.author.id)) throw "please wait a few seconds, I am trying to be a good bot for others too!";
-            msg.channel.startTyping();
-            // get parameters
-            let image = (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) ? msg.attachments.first().url : lastAttachmentUrl[msg.channel.id] // url of image attachment
-                , param, params, arr = {};
-            if (typeof c.imageOnly === 'undefined' || !c.imageOnly) {
-                params = helpers.parseParams(msg, c, cmd);
-                param = helpers.parseLine(msg, c, cmd);
-            }
-            // set formData
-            for (i in c.data) {
-                arr[i] = eval("(" + c.data[i] + " || '')"); // forgive me, for i have sinned very, very heavily
-            }
-            // if postUrl exists
-            if (typeof c.postUrl !== 'undefined' && c.postUrl) {
-                if ("image" in arr && arr['image'].length < 1) throw "couldn't find an image to use, you need to directly upload an image. (after doing so I can use that and any previous images posted in the chat)";
-                // TODO: move this to seperate module
-                request.post({
-                    followAllRedirects: true,
-                    url: c.postUrl,
-                    timeout: 15000,
-                    formData: arr
-                }, function optionalCallback(err, response, body) {
-                    var errors = /error">(.*?)<\//g.exec(body); // regex to get errors from the website we post to
-                    if (typeof errors !== 'undefined' && errors) {
-                        return report(errors, msg, `something went wrong while making your image, \`${errors[1]}\``);
-                    } else {
-                        var results = /src="([^"]+)"/g.exec(body); // regex to get the very first image tag
-                        msg.channel.send({ files: [results[1]] })
-                            .catch(e => { report(e, msg, `Something went wrong while sending your image.`)}); // send message
-                    }
-                }).then(msg.channel.stopTyping(true)).catch(e => { report(e, msg, `Something went wrong while making your image.`)});
-            }
-            // if morphFile (imagemagick) exists
-            else if (typeof c.morphFile !== 'undefined' && c.morphFile) {
-                // no image found
-                if (typeof image === 'undefined' || !image) throw "couldn't find an image to use, you need to directly upload an image. (i can use that and any previous images without requiring an upload after)";
-                // TODO: move this to seperate module
-                const tempName = crypto.randomBytes(4).toString('hex');
-                fs.open(`./${config.temp}/${tempName}.jpg`, 'w', function (err, file) {
-                    if (err) return report(err, msg, `something went wrong while making your image.`);
-                    fs.closeSync(file);
-
-                    gm(`${image}[0]`)
-                        .morph(c.morphFile, `./${config.temp}/${tempName}.jpg`)
-                        .compress("JPEG")
-                        .write(`./${config.temp}/${tempName}.jpg`, function (err) {
-                            if (err) return report(err, msg, `Something went wrong while making your image.`);
-                            msg.channel.send({ files: [`./${config.temp}/${tempName}-1.jpg`] })
-                                .then(s => {
-                                    helpers.cleanImages(tempName);
-                                    msg.channel.stopTyping(true);
-                                })
-                                .catch(e => {
-                                    report(e, msg, `something went wrong while sending your image. it is very likely that I lost the file stream, I am hosted on a cheap node after all.`);
-                                    if (!fs.existsSync(`./${config.temp}`)) fs.mkdirSync(`./${config.temp}`);
-                                });
-                        });
-                }); // need to do this or else imagemagick will cause an error
-            }
-        } catch(err) {
-            report(err, msg);
-        } finally {
-            helpers.usedCommand = helpers.startCooldown(msg.author.id); // add to cooldown set
-        }
-    }
+  }
 });
 
-function report(err, msg = null, friendlyMessage = null) {
-    console.error('Error:', err);
-    if (msg != null) {
-        msg.reply(friendlyMessage || err);
-        msg.channel.stopTyping(true);
-    }
-}
+(db.connection).on('error', err => { console.error(err.code); });
+client.on('error', console.error);
+client.on('warn', console.warn);
+
+client.login( process.env.TOKEN );
