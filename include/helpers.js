@@ -1,67 +1,156 @@
-const config = require('./config')
-    , fs = require('fs')
-    , usedCommand = new Set();
+// * helpers.js: Misc. helper commands.
+
+let client = null; // we transfer the client to helper
+const commands = require('./commands.json');
+const db = require('./dbconfig');
+const Discord = require('discord.js'); // Discord library
+const lastAttachmentUrl = []; // saves the last attachment's url per text channel id
+const usedCommand = new Set(); // manages cooldown
 
 module.exports =
 {
-    usedCommand: usedCommand,
+  usedCommand: usedCommand,
 
-    // clean up the temporary directory
-    cleanTemp: function () {
-        fs.readdir(config.temp, (err, files) => {
-            if (err) report(err);
-            for (const file of files) {
-                fs.unlink(path.join(config.temp, file), err => {
-                    if (err) throw err;
-                });
-            }
-        });
-    },
+  // is the user in the cooldown set?
+  cooldownGet: function(clientId) {
+    return usedCommand.has(clientId);
+  },
 
-    // clean up the temporary directory
-    cleanImages: function (fileName) {
-        fs.unlink(`./${config.temp}/${fileName}.jpg`, silent => {});
-        fs.unlink(`./${config.temp}/${fileName}-0.jpg`, silent => {});
-        fs.unlink(`./${config.temp}/${fileName}-1.jpg`, silent => {});
-        fs.unlink(`./${config.temp}/${fileName}-2.jpg`, silent => {});
-    },
+  // adds the user to the set so that they can't use commands
+  cooldownSet: function (clientId, cooldownInSeconds = process.env.COOLDOWN) {
+    usedCommand.add(clientId);
+    setTimeout(() => { usedCommand.delete(clientId); }, cooldownInSeconds * 1000);
+  },
 
-    hasCooldown: function(id) {
-        return usedCommand.has(id);
-    },
+  // quick way to make an embed with the correct color set
+  embed: function() {
+    return new Discord.RichEmbed().setColor([64, 86, 178]);
+  }, 
 
-    // is author id in the message equal to the owner's id as in config.js
-    isOwner: function(msg) {
-        return msg.author.id == config.sasch;
-    },
+  // generate random integer
+  getRandomInt: function (minimum, maximum) {
+    return Math.round(Math.random() * (maximum - minimum) + minimum);
+  },
 
-    // generate random integer
-    getRandomInt: function (minimum, maximum) {
-        return Math.round( Math.random() * (maximum - minimum) + minimum);
-    },
+  // make helper embed and send it
+  makeHelpEmbed: function (msg) {
+    // sort commands alphabetically
+    const cmds = Object.keys(commands).sort((a, b) => a.localeCompare(b));
+    let output = [];
 
-    parseLine: function (msg, commandData, commandName) {
-        let param = msg.content.replace(`${config.prefix}${commandName}`, "").trim()
-            , min = (commandData.minLength || 2)
-            , max = ((commandData.maxLength || 30) * (commandData.maxArgs || 2));
-        if (param.length < min || param.length > max) throw `this command requires at least ${min} letter(s) and only allows for a maximum of ${max} letters input from the user.`;
-        return (commandData.filter) ? param.replace(/[^\w\s]/gi, '') : param;
-    },
-
-    parseParams: function (msg, commandData, commandName) {
-        let param = msg.content.replace(`${config.prefix}${commandName}`, "").trim()
-            , min = (commandData.minArgs || 1)
-            , max = (commandData.maxArgs || 32);
-        if (param.length < 2) throw `this command requires text input from the user.`;
-        let params = param.split('|');
-        if (params.length < min || params.length > max) throw `this command requires a minimum of ${min} argument(s) and a maximum of ${max} arguments from the user.`;
-        return (params.length <= 1) ? [ null ] : params.map(s => { return (commandData.filter) ? s.replace(/[^\w\s]/gi, '').trim() : s.trim() });
-    },
-
-    // adds the user to the set so that they can't use commands
-    startCooldown: function(id) {
-        usedCommand.add(id);
-        setTimeout(() => { usedCommand.delete(id); }, config.cooldown * 1000);
+    // for every command..
+    for (let i in cmds) {
+      // determine index number, an embed field has a limit of 256 for title and 1024 for contents
+      const theIndex = Math.floor((Number(i) + 1) / 25 + 1); // max 25 cmds, prevent division by 0 error
+      if (typeof output[theIndex] === 'undefined') output[theIndex] = '';
+      output[theIndex] += `'${cmds[i]}' ${commands[cmds[i]]['usage']}\n`;
     }
 
+    // construct the embed
+    const embed = this.embed()
+      .setAuthor('A bot made by sasch#0001')
+      .addField('Parameters',
+        'Use `|` to seperate parameters, parameters in `<>` means they are optional.')
+      .addField('Using and remembering images',
+        `The bot remembers the last image/attachment that was posted in a text channel, you can use \`${process.env.PREFIX}lastimage\` to retrieve the image from a text channel the bot has remembered.`)
+      .addField('"Image Upload/Face Required" explained',
+        'This means that the commands needs a previously posted image (by sending no image) or an attachment when calling the command, if it cannot find a previous image and no attachment is posted either then the action will fail, stating it needs an image.')
+      .addField('Configuration',
+        `This bot can be configured, type \`${process.env.PREFIX}config\` to see all configurable settings and \`${process.env.PREFIX}config [full name]\` to toggle on or off.`)
+      .addField('Support / Suggestion / Testing Server',
+        'https://discord.gg/trhhTxD')
+      .addField('Invite Link',
+        'https://discordapp.com/oauth2/authorize?client_id=328968948894662666&scope=bot&permissions=117824');
+    // add all the commands into the embed
+    for (let j in output) embed.addField(`Commands (${Number(j + 1)}-${Number(j + 1) * 25})`, '```prolog\n' + output[j] + '```', true);
+
+    // send the embed through PM
+    msg.author.send({ embed })
+      .catch(() => msg.reply('could not send you a private message, make sure you have those enabled on this server.').catch(() => { }))
+      .then(() => msg.reply('check your private messages.').catch(() => { }));
+  },
+
+  // does id equal OWNER_ID?
+  isOwner: function(userId) {
+    return userId == process.env.OWNER_ID;
+  },
+
+  // get the last image posted from a channel
+  lastImageGet: function (channelId) {
+    return (typeof lastAttachmentUrl[channelId] !== 'undefined') ? lastAttachmentUrl[channelId] : null;
+  },
+
+  // fetch and set the last image posted from a channel
+  lastImageSet: function (msg) {
+    // get the first image url from a message
+    let url = /https?:\/\/.*\.(?:png|jpg|gif|jpeg)/g.exec(msg.content);
+    if (url && url[0]) {
+      lastAttachmentUrl[msg.channel.id] = url[0];
+    }
+    // get direct attachment
+    else if (typeof msg.attachments.first() !== 'undefined' && msg.attachments.first()) {
+      lastAttachmentUrl[msg.channel.id] = msg.attachments.first().url;
+    }
+  },
+
+  // parse a whole text with optional \w\s regex filter
+  parseLine: function (messageString, commandData) {
+    let param = messageString.trim();
+    let min = (commandData.minLength || 2);
+    let max = ((commandData.maxLength || 20) * (commandData.maxArgs || 1));
+    if (param.length < min || param.length > max) throw `this command requires at least ${min} letter(s) and only allows for a maximum of ${max} letters input from the user.`;
+    return (commandData.filter) ? param.replace(/[^\w\s]/gi, '') : param;
+  },
+
+  // parse parameters
+  parseParams: function (messageString, commandData) {
+    let param = messageString.trim();
+    let min = (commandData.minArgs || 1);
+    let max = (commandData.maxArgs || 32);
+    if (param.length == 0) throw 'this command requires text input from the user.';
+    let params = param.split('|');
+    if (params.length < min || params.length > max) throw `this command requires a minimum of ${min} argument(s) and a maximum of ${max} arguments from the user.`;
+    return (params.length <= 1) ? [ null ] : params.map(s => { return (commandData.filter) ? s.replace(/[^\w\s]/gi, '').trim() : s.trim(); });
+  },
+
+  // shortcode to log errors, handling errors and show a 'friendly' error message
+  reportError: function(err, msg = null, friendlyMessage = null) {
+    console.error('reportError triggered:', err);
+    if (msg != null) {
+      // reply on error (true by default)
+      if (db.getSetting(msg.guild.id, 'Reply on Error') == true) {
+        msg.reply(friendlyMessage || err).catch(() => { });
+      }
+      // react on error (true by default)
+      if (db.getSetting(msg.guild.id, 'React on Error') == true) {
+        const react = client.emojis.get('474862388999487489');
+        msg.react(react.id || '❌').catch(() => { });
+      }
+      
+      msg.channel.stopTyping(true);
+    }
+  },
+
+  // haha yes
+  sasch: function (activeClient) {
+    return activeClient.users.get(process.env.OWNER_ID);
+  },
+
+  // short function to send an image file as a message inside an embed, since this is going to be used a lot.
+  sendImage: function (msg, path) {
+    console.log(`sendImage triggered for ${msg.author.username}#${msg.author.discriminator} in ${msg.guild.name} (${msg.guild.id})`);
+
+    const embed = this.embed()
+      .setAuthor(`Requested by ${msg.author.username}#${msg.author.discriminator}`, msg.author.avatarURL)
+      .attachFile(path);
+
+    msg.channel.send({ embed })
+      .then(() => { msg.channel.stopTyping(true); })
+      .catch(error => { this.reportError(error, msg, 'something went wrong while trying to send your image through Discord.'); });
+  },
+
+  // carry over
+  setClientInHelper: function (botClient) {
+    client = botClient;
+  }
 };
