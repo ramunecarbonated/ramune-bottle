@@ -207,7 +207,7 @@
   "knight": {
     "usage": "Face Required",
     "noText": true,
-    "funiaUrl": "knight-/w-sword",
+    "funiaUrl": "knight-with-sword",
     "data": {
       "image": "image || ''"
     }
