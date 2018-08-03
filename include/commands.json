@@ -1,424 +1,490 @@
 {
-    "neonsign": {
-        "usage": "[text]",
-        "postUrl": "https://m.photofunia.com/categories/all_effects/neon-sign?server=2",
-        "data": {
-            "colour" : "['y', 'r', 'p', 'v', 'b', 'g'][Math.floor(Math.random() * 6)]",
-            "text" : "param"
-        }
-    },
-    "retro": {
-        "usage": "[text1 | <text2> | <text3> (only a-z)]",
-        "filter": true,
-        "maxArgs": 3,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/retro-wave?server=2",
-        "data": {
-            "bcg" : "helpers.getRandomInt(1, 5)",
-            "txt" : "helpers.getRandomInt(1, 4)",
-            "text1" : "params[0] || param",
-            "text2" : "params[1] || ''",
-            "text3" : "params[2] || ''"
-        }
-    },
-    "cake": {
-        "usage": "[text1 | <text2>]",
-        "maxLength": 15,
-        "maxArgs": 2,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/birthday-cake?server=2",
-        "data": {
-            "text1" : "params[0] || param",
-            "text2" : "params[1] || ''"
-        }
-    },
-    "roadsign": {
-        "usage": "[text | <sign>]",
-        "maxLength": 20,
-        "maxArgs": 2,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/led-road-sign?server=2",
-        "data": {
-            "text": "params[0] || param",
-            "sign": "params[1] || ''"
-        }
-    },
-    "electric": {
-        "usage": "[text]",
-        "postUrl": "https://m.photofunia.com/categories/all_effects/light-graffiti?server=2",
-        "data": {
-            "text": "param"
-        }
-    },
-    "streetsign": {
-        "usage": "[text]",
-        "maxLength": 20,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/street-sign?server=2",
-        "data": {
-            "text": "param"
-        }
-    },
-    "cemetery": {
-        "usage": "[text (only a-z)]",
-        "filter": true,
-        "maxLength": 20,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/cemetery-gates?server=2",
-        "data": {
-            "text": "param"
-        }
-    },
-    "noir": {
-        "usage": "[text]",
-        "maxLength": 25,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/noir?server=2",
-        "data": {
-            "type": "helpers.getRandomInt(1, 4)",
-            "text": "param"
-        }
-    },
-    "movie": {
-        "usage": "[text1 | <text2>]",
-        "maxArgs": 2,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/movie_marquee?server=2",
-        "data": {
-            "type": "helpers.getRandomInt(1, 4)",
-            "text": "param"
-        }
-    },
-    "trump": {
-        "usage": "[image] [text]",
-        "postUrl": "https://m.photofunia.com/categories/all_effects/trump?server=2",
-        "data": {
-            "image": "image || ''",
-            "text": "param",
-            "type": "helpers.getRandomInt(1, 2)"
-        }
-    },
-    "valentine": {
-        "usage": "[image] [text]",
-        "postUrl": "https://m.photofunia.com/categories/all_effects/be_my_valentine?server=2",
-        "data": {
-            "image": "image || ''",
-            "text": "param"
-        }
-    },
-    "picadilly": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/picadilly_circus?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "rushmore": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/mount_rushmore?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "obama": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/obama?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "makeup": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/applying_makeup?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "fbi": {
-        "usage": "[image] [text]",
-        "postUrl": "https://m.photofunia.com/categories/all_effects/fbi_agent?server=2",
-        "data": {
-            "image": "image || ''",
-            "text": "param",
-            "skin": "helpers.getRandomInt(1, 2)"
-        }
-    },
-    "tablet": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/tablet?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "news": {
-        "usage": "[image] [title | headline | <channel>]",
-        "minArgs": 2,
-        "maxArgs": 3,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/breaking-news?server=2",
-        "data": {
-            "image": "image || ''",
-            "title1": "params[0] || ''",
-            "title2": "params[1] || ''",
-            "channel": "params[2] || ''"
-        }
-    },
-    "press": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/press_conference?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "goats": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/goats?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "keepcalm": {
-        "usage": "[line below 'AND' | last line]",
-        "minArgs": 2,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/keep_calm?server=2",
-        "data": {
-            "line1" : "'KEEP'",
-            "line2" : "'CALM'",
-            "line3" : "'AND'",
-            "line4" : "params[0] || ''",
-            "line5" : "params[1] || ''"
-        }
-    },
-    "gallery": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/gallery-visitors?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "museum": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/louvre?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "knight": {
-        "usage": "[image with face]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/knight-with-sword?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "cinema": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/in-the-cinema?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "readingcat": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/smart_kitty?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "oldbook": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/old_book?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "polaroid": {
-        "usage": "[image] [text]",
-        "postUrl": "https://m.photofunia.com/categories/all_effects/instant_camera?server=2",
-        "data": {
-            "image": "image || ''",
-            "text": "param"
-        }
-    },
-    "burning": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/burning_photo?server=2",
-        "data": {
-            "image": "image || ''",
-            "animation": "'icon'"
-        }
-    },
-    "leprechaun": {
-        "usage": "[image with face]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/leprechaun-hat?server=2",
-        "data": {
-            "image": "image || ''",
-            "orientation": "'center'"
-        }
-    },
-    "anime": {
-        "usage": "[image with face]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/anime?server=2",
-        "data": {
-            "image": "image || ''",
-            "eyes": "'blue'"
-        }
-    },
-    "communist": {
-        "usage": "[image with face] [text]",
-        "postUrl": "https://m.photofunia.com/categories/all_effects/volunteer?server=2",
-        "data": {
-            "image": "image || ''",
-            "text": "param"
-        }
-    },
-    "fortunecookie": {
-        "usage": "[text]",
-        "maxLength": 40,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/fortune-cookie?server=2",
-        "data": {
-            "text": "param"
-        }
-    },
-    "xmashat": {
-        "usage": "[image with face]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/xmas_cap?server=2",
-        "data": {
-            "image": "image || ''",
-            "color": "'red'"
-        }
-    },
-    "coffee": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/latte-art?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "confetti": {
-        "usage": "[image with face]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/birthday-party?server=2",
-        "data": {
-            "image": "image || ''",
-            "confetti": "'on'"
-        }
-    },
-    "vhs": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/vhs?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "clown": {
-        "usage": "[image with face]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/clown?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "fatten": {
-        "usage": "[image with face]",
-        "imageOnly": true,
-        "postUrl": "https://m.photofunia.com/categories/all_effects/fat_maker?server=2",
-        "data": {
-            "image": "image || ''"
-        }
-    },
-    "police": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "morphFile": "http://pomf.ramune.me/files/rlezrkq.png"
-    },
-    "pride": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "morphFile": "http://pomf.ramune.me/files/wwzgkma.png"
-    },
-    "despacito": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "morphFile": "http://pomf.ramune.me/files/hfwanss.png"
-    },
-    "nazi": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "morphFile": "https://pomf.ramune.me/files/jokblip.png"
-    },
-    "israel": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "morphFile": "http://pomf.ramune.me/files/oqzdblh.png"
-    },
-    "jew": {
-        "usage": "[image]",
-        "imageOnly": true,
-        "morphFile": "http://pomf.ramune.me/files/sdqkcis.png"
-  "implode": {
+  "neonsign": {
+    "usage": "[txt]",
+    "funiaUrl": "neon-sign",
+    "data": {
+      "colour" : "['y', 'r', 'p', 'v', 'b', 'g'][Math.floor(Math.random() * 6)]",
+      "text" : "param"
+    }
+  },
+  "retro": {
+    "usage": "[txt1 | <txt2> | <txt3>] Only Letters",
+    "filter": true,
+    "maxArgs": 3,
+    "funiaUrl": "retro-wave",
+    "data": {
+      "bcg" : "helper.getRandomInt(1, 5)",
+      "txt" : "helper.getRandomInt(1, 4)",
+      "text1" : "params[0] || param",
+      "text2" : "params[1] || ''",
+      "text3" : "params[2] || ''"
+    }
+  },
+  "cake": {
+    "usage": "[txt1 | <txt2>]",
+    "maxLength": 15,
+    "maxArgs": 2,
+    "funiaUrl": "birthday-cake",
+    "data": {
+      "text1" : "params[0] || param",
+      "text2" : "params[1] || ''"
+    }
+  },
+  "roadsign": {
+    "usage": "[txt | <sign>]",
+    "maxLength": 20,
+    "maxArgs": 2,
+    "funiaUrl": "led-road-sign",
+    "data": {
+      "text": "params[0] || param",
+      "sign": "params[1] || ''"
+    }
+  },
+  "electric": {
+    "usage": "[txt]",
+    "funiaUrl": "light-graffiti",
+    "data": {
+      "text": "param"
+    }
+  },
+  "streetsign": {
+    "usage": "[txt]",
+    "maxLength": 13,
+    "funiaUrl": "street-sign",
+    "data": {
+      "text": "param"
+    }
+  },
+  "cemetery": {
+    "usage": "[txt] Only Letters",
+    "filter": true,
+    "maxLength": 20,
+    "funiaUrl": "cemetery-gates",
+    "data": {
+      "text": "param"
+    }
+  },
+  "noir": {
+    "usage": "[txt]",
+    "maxLength": 25,
+    "funiaUrl": "noir",
+    "data": {
+      "type": "helper.getRandomInt(1, 4)",
+      "text": "param"
+    }
+  },
+  "movie": {
+    "usage": "[txt1 | <txt2>]",
+    "maxArgs": 2,
+    "funiaUrl": "movie_marquee",
+    "data": {
+      "text1": "params[0] || param",
+      "text2": "params[1] || ''"
+    }
+  },
+  "trump": {
+    "usage": "[txt] Image Upload Required",
+    "funiaUrl": "trump",
+    "data": {
+      "image": "image || ''",
+      "text": "param",
+      "type": "helper.getRandomInt(1, 2)"
+    }
+  },
+  "valentine": {
+    "usage": "[txt] Image Upload Required",
+    "funiaUrl": "be_my_valentine",
+    "data": {
+      "image": "image || ''",
+      "text": "param"
+    }
+  },
+  "picadilly": {
+    "usage": "Image Upload Required",
     "noText": true,
-    "usage": "[image]"
+    "funiaUrl": "picadilly_circus",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "rushmore": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "mount_rushmore",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "obama": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "obama",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "makeup": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "applying_makeup",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "fbi": {
+    "usage": "[txt] Image Upload Required",
+    "funiaUrl": "fbi_agent",
+    "data": {
+      "image": "image || ''",
+      "text": "param",
+      "skin": "helper.getRandomInt(1, 2)"
+    }
+  },
+  "tablet": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "tablet",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "news": {
+    "usage": "[title | headline | <channel>] Image Upload Required",
+    "minArgs": 2,
+    "maxArgs": 3,
+    "funiaUrl": "breaking-news",
+    "data": {
+      "image": "image || ''",
+      "title1": "params[0] || ''",
+      "title2": "params[1] || ''",
+      "channel": "params[2] || ''"
+    }
+  },
+  "press": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "press_conference",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "goats": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "goats",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "keepcalm": {
+    "usage": "[4th line | 5th (last) line]",
+    "minArgs": 2,
+    "funiaUrl": "keep_calm",
+    "data": {
+      "line1" : "'KEEP'",
+      "line2" : "'CALM'",
+      "line3" : "'AND'",
+      "line4" : "params[0] || ''",
+      "line5" : "params[1] || ''"
+    }
+  },
+  "gallery": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "gallery-visitors",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "museum": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "louvre",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "knight": {
+    "usage": "Face Required",
+    "noText": true,
+    "funiaUrl": "knight-/w-sword",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "cinema": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "in-the-cinema",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "readingcat": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "smart_kitty",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "oldbook": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "old_book",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "polaroid": {
+    "usage": "[txt] Image Upload Required",
+    "funiaUrl": "instant_camera",
+    "data": {
+      "image": "image || ''",
+      "text": "param"
+    }
+  },
+  "burning": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "burning-fire",
+    "data": { "image": "image || ''" }
+  },
+  "leprechaun": {
+    "usage": "Face Required",
+    "noText": true,
+    "funiaUrl": "leprechaun-hat",
+    "data": {
+      "image": "image || ''",
+      "orientation": "'center'"
+    }
+  },
+  "anime": {
+    "usage": "Face Required",
+    "noText": true,
+    "funiaUrl": "anime",
+    "data": {
+      "image": "image || ''",
+      "eyes": "'blue'"
+    }
+  },
+  "communist": {
+    "usage": "[txt] Face Required",
+    "funiaUrl": "volunteer",
+    "data": {
+      "image": "image || ''",
+      "text": "param"
+    }
+  },
+  "fortunecookie": {
+    "usage": "[txt]",
+    "maxLength": 40,
+    "funiaUrl": "fortune-cookie",
+    "data": {
+      "text": "param"
+    }
+  },
+  "xmashat": {
+    "usage": "Face Required",
+    "noText": true,
+    "funiaUrl": "xmas_cap",
+    "data": {
+      "image": "image || ''",
+      "color": "'red'"
+    }
+  },
+  "coffee": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "latte-art",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "confetti": {
+    "usage": "Face Required",
+    "noText": true,
+    "funiaUrl": "birthday-party",
+    "data": {
+      "image": "image || ''",
+      "confetti": "'on'"
+    }
+  },
+  "vhs": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "vhs",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "clown": {
+    "usage": "Face Required",
+    "noText": true,
+    "funiaUrl": "clown",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "fatten": {
+    "usage": "Face Required",
+    "noText": true,
+    "funiaUrl": "fat_maker",
+    "data": {
+      "image": "image || ''"
+    }
+  },
+  "police": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "morph": "http://pomf.ramune.me/files/rlezrkq.png",
+    "data": { "image": "image || ''" }
+  },
+  "pride": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "morph": "http://pomf.ramune.me/files/wwzgkma.png",
+    "data": { "image": "image || ''" }
+  },
+  "despacito": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "morph": "http://pomf.ramune.me/files/hfwanss.png",
+    "data": { "image": "image || ''" }
+  },
+  "nazi": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "morph": "https://pomf.ramune.me/files/jokblip.png",
+    "optIn": true,
+    "data": { "image": "image || ''" }
+  },
+  "israel": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "morph": "http://pomf.ramune.me/files/oqzdblh.png",
+    "optIn": true,
+    "data": { "image": "image || ''" }
+  },
+  "jew": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "morph": "http://pomf.ramune.me/files/sdqkcis.png",
+    "optIn": true,
+    "data": { "image": "image || ''" }
   },
   "chef": {
-    "usage": "[image with face]",
+    "usage": "Face Required",
     "noText": true,
-    "url": "https://m.photofunia.com/categories/all_effects/chefs-hat?server=2",
+    "funiaUrl": "chefs-hat",
     "data": {
       "image": "image || ''"
     }
   },
   "snowangel": {
-    "usage": "[image with face]",
+    "usage": "Face Required",
     "noText": true,
-    "url": "https://m.photofunia.com/categories/all_effects/santa-snow-angel?server=2",
+    "funiaUrl": "santa-snow-angel",
     "data": {
       "image": "image || ''",
       "animation": "'icon'"
     }
   },
   "bunny": {
-    "usage": "[image with face]",
+    "usage": "Face Required",
     "noText": true,
-    "url": "https://m.photofunia.com/categories/all_effects/bunny_ears?server=2",
+    "funiaUrl": "bunny_ears",
     "data": {
       "image": "image || ''"
     }
   },
   "crown": {
-    "usage": "[image with face]",
+    "usage": "Face Required",
     "noText": true,
-    "url": "https://m.photofunia.com/categories/all_effects/crown?server=2",
+    "funiaUrl": "crown",
     "data": {
       "image": "image || ''"
     }
   },
   "alien": {
-    "usage": "[image with face]",
+    "usage": "Face Required",
     "noText": true,
-    "url": "https://m.photofunia.com/categories/all_effects/alien?server=2",
+    "funiaUrl": "alien",
     "data": {
       "image": "image || ''",
       "skin": "'on'"
     }
   },
   "zombie": {
-    "usage": "[image with face]",
+    "usage": "Face Required",
     "noText": true,
-    "url": "https://m.photofunia.com/categories/all_effects/zombie?server=2",
+    "funiaUrl": "zombie",
     "data": {
       "image": "image || ''",
       "type": "helper.getRandomInt(1, 3)"
     }
+  },
+  "thisisfine": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "morph": "http://pomf.ramune.me/files/iztpmny.png",
+    "data": { "image": "image || ''" }
+  },
+  "godiwish": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "appendBelow": "http://pomf.ramune.me/files/qvlwiht.png",
+    "data": { "image": "image || ''" }
+  },
+  "disgusting": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "appendBelow": "http://pomf.ramune.me/files/hbiltsr.png",
+    "data": { "image": "image || ''" }
+  },
+  "ifunny": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "appendBelow": "http://pomf.ramune.me/files/ictlzok.png",
+    "data": { "image": "image || ''" }
+  },
+  "goodfood": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "appendBelow": "http://pomf.ramune.me/files/fxqubpl.png",
+    "data": { "image": "image || ''" }
+  },
+  "water": {
+    "usage": "[txt]",
+    "maxLength": 15,
+    "funiaUrl": "water-writing",
+    "data": { "text": "param" }
+  },
+  "mirror": {
+    "usage": "Face Required",
+    "noText": true,
+    "funiaUrl": "mirror",
+    "data": { "image": "image || ''" }
+  },
+  "flowers": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "spring-flowers",
+    "data": { "image": "image || ''" }
+  },
+  "rusty": {
+    "usage": "[txt]",
+    "maxLength": 20,
+    "funiaUrl": "rusty-writing",
+    "data": {
+      "bcg": "helper.getRandomInt(1, 5)",
+      "text": "params[0] || param"
+    }
+  },
+  "summoner": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "funiaUrl": "summoning-spirits",
+    "data": { "image": "image || ''" }
   }
 }
