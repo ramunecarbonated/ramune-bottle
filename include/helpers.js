@@ -41,7 +41,7 @@ module.exports =
     // for every command..
     for (let i in cmds) {
       // determine index number, an embed field has a limit of 256 for title and 1024 for contents
-      const theIndex = Math.floor((Number(i) + 1) / 25 + 1); // max 25 cmds, prevent division by 0 error
+      const theIndex = Math.floor((Number(i) + 1) / 30 + 1); // max 30 cmds, prevent division by 0 error
       if (typeof output[theIndex] === 'undefined') output[theIndex] = '';
       output[theIndex] += `'${cmds[i]}' ${commands[cmds[i]]['usage']}\n`;
     }
@@ -58,11 +58,11 @@ module.exports =
       .addField('Configuration',
         `This bot can be configured, type \`${process.env.PREFIX}config\` to see all configurable settings and \`${process.env.PREFIX}config [full name]\` to toggle on or off.`)
       .addField('Support / Suggestion / Testing Server',
-        'https://discord.gg/trhhTxD')
+        'If you got any questions, suggestions or want to test around a little bit with the bot then feel free to join it\'s Discord server located @ https://discord.gg/trhhTxD')
       .addField('Invite Link',
-        'https://discordapp.com/oauth2/authorize?client_id=328968948894662666&scope=bot&permissions=117824');
+        'Use this link to invite the bot to your server @ https://discordapp.com/oauth2/authorize?client_id=328968948894662666&scope=bot&permissions=117824');
     // add all the commands into the embed
-    for (let j in output) embed.addField(`Commands (${Number(j + 1)}-${Number(j + 1) * 25})`, '```prolog\n' + output[j] + '```', true);
+    for (let j in output) embed.addField(`Commands (part ${Number(j)})`, '```prolog\n' + output[j] + '```', true);
 
     // send the embed through PM
     msg.author.send({ embed })
