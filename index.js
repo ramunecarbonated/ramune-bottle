@@ -84,7 +84,7 @@ client.on('message', msg => {
   }
 
   if (cmd === 'config') {
-    const embed = helper.embed();
+    const embed = helper.embed().setTitle(`Server settings for ${msg.guild.name}`);
     if (msgString.length < 1) {
       Object.keys(db.getAllSettings(msg.guild.id)).forEach(function (k) {
         embed.addField(k, db.getSetting(msg.guild.id, k));
@@ -93,15 +93,15 @@ client.on('message', msg => {
       const setting = db.getSetting(msg.guild.id, msgString);
       if (typeof setting !== 'undefined') {
         embed.addField(msgString, `~~${setting}~~ **${!setting}**`);
-        db.toggleSetting(msg.guild.id, msgString); console.log('hi');
+        db.toggleSetting(msg.guild.id, msgString);
       } else {
-        embed.addField('Unknown config setting!', `Try \`${process.env.PREFIX}config\` without arguments for a list of configurable settings for this bot.`);
+        embed.addField('Unknown config setting!', `Please make sure you are typing the exact, full name of the setting. You can also type \`${process.env.PREFIX}config\` to list all settings.`);
       }
     }
 
     // add notice that config can be modified if you have the permissions to do so
     if (msg.member.hasPermission('MANAGE_GUILD') || helper.isOwner(msg.author.id)) {
-      embed.setFooter(`Toggle a configuration setting by typing \`${process.env.PREFIX}config\` with the full name of the setting, requires \`Manage Server\` or \`Bot Owner\`.`);
+      embed.setFooter(`Toggle a configuration setting by typing \`${process.env.PREFIX}config\` with the exact, full name of the setting, requires \`Manage Server\` or \`Bot Owner\`.`);
     }
 
     msg.channel.send({ embed }).catch(() => { });
