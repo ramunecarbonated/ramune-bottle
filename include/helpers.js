@@ -115,6 +115,7 @@ module.exports =
   reportError: function(err, msg = null, friendlyMessage = null) {
     console.error('reportError triggered:', err);
     if (msg != null) {
+      msg.channel.stopTyping(true);
       // reply on error (true by default)
       if (db.getSetting(msg.guild.id, 'Reply on Error') == true) {
         msg.reply(friendlyMessage || err).catch(() => { });
@@ -124,8 +125,6 @@ module.exports =
         const react = client.emojis.get('474862388999487489');
         msg.react(react.id || '❌').catch(() => { });
       }
-      
-      msg.channel.stopTyping(true);
     }
   },
 
