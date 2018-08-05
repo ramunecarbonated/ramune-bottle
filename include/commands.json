@@ -486,5 +486,13 @@
     "noText": true,
     "funiaUrl": "summoning-spirits",
     "data": { "image": "image || ''" }
+  },
+  "bythepope": {
+    "usage": "Image Upload Required",
+    "noText": true,
+    "appendBelow": "http://pomf.ramune.me/files/mrebnqz.jpg",
+    "data": {
+      "image": "image || ''"
+    }
   }
 }
