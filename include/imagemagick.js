@@ -15,7 +15,7 @@ module.exports =
       .resize(400)
       .append(command.appendBelow)
       .compress('JPEG')
-      .quality(85)
+      .quality(70)
       .write(`./${process.env.TEMP_DIR}/${tempName}.jpg`, function (err) {
         if (err) {
           if (!fs.existsSync(`./${process.env.TEMP_DIR}`)) fs.mkdirSync(`./${process.env.TEMP_DIR}`);
@@ -33,7 +33,7 @@ module.exports =
     gm(`${image}[0]`)
       .morph(command.morph, `./${process.env.TEMP_DIR}/${tempName}.jpg`)
       .compress('JPEG')
-      .quality(85)
+      .quality(70)
       .write(`./${process.env.TEMP_DIR}/${tempName}.jpg`, function (err) {
         if (err) {
           if (!fs.existsSync(`./${process.env.TEMP_DIR}`)) fs.mkdirSync(`./${process.env.TEMP_DIR}`);
