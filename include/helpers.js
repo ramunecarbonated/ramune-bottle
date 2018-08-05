@@ -64,10 +64,8 @@ module.exports =
     // add all the commands into the embed
     for (let j in output) embed.addField(`Commands (part ${Number(j)})`, '```prolog\n' + output[j] + '```', true);
 
-    // send the embed through PM
-    msg.author.send({ embed })
-      .catch(() => msg.reply('could not send you a private message, make sure you have those enabled on this server.').catch(() => { }))
-      .then(() => msg.reply('check your private messages.').catch(() => { }));
+    // send the embed through PM or in the channel if PMs are off
+    msg.author.send({ embed }).catch(() => msg.reply({ embed }).catch(() => { }));
   },
 
   // does id equal OWNER_ID?
