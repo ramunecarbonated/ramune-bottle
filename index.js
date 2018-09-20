@@ -28,7 +28,7 @@ client.on('guildCreate', guild => {
   helper.sasch(client).send(output);
   console.log(output);
   client.user.setActivity(`${client.guilds.size} servers | ${process.env.PREFIX}helpme`, { type: 'WATCHING' });
-  db.insertGuild(guild.id); // add guild to database
+  db.fetchSettingForGuild(guild.id); // add guild to database
 });
 
 // the bot is kicked from a guild
@@ -37,14 +37,12 @@ client.on('guildDelete', guild => {
   helper.sasch(client).send(output);
   console.log(output);
   client.user.setActivity(`${client.guilds.size} servers | ${process.env.PREFIX}helpme`, { type: 'WATCHING' });
-  // db.removeGuild(guild.id); // remove guild from database
 });
 
 // someone starts typing
 client.on('typingStart', (channel, user) => {
   if (channel.type == 'text' && typeof db.guildSettings[channel.guild.id] === 'undefined') {
     db.fetchSettingForGuild(channel.guild.id);
-    console.log(`${user.username}#${user.discriminator} (${user.id}) triggered setting fetch for ${channel.guild.name} (${channel.guild.id})`);
   }
 });
 
