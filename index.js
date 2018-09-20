@@ -37,7 +37,7 @@ client.on('guildDelete', guild => {
   helper.sasch(client).send(output);
   console.log(output);
   client.user.setActivity(`${client.guilds.size} servers | ${process.env.PREFIX}helpme`, { type: 'WATCHING' });
-  db.removeGuild(guild.id); // remove guild from database
+  // db.removeGuild(guild.id); // remove guild from database
 });
 
 // someone starts typing
