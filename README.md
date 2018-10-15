@@ -1,5 +1,5 @@
 # ramune-bottle, powering the jack frosty Discord bot
-[![Build Status](https://travis-ci.org/ramunecarbonated/ramune-bottle.svg?branch=master)](https://travis-ci.org/ramunecarbonated/ramune-bottle) [![BCH compliance](https://bettercodehub.com/edge/badge/ramunecarbonated/ramune-bottle?branch=master)](https://bettercodehub.com/)
+[![Build Status](https://travis-ci.org/ramunecarbonated/ramune-bottle.svg?branch=master)](https://travis-ci.org/ramunecarbonated/ramune-bottle)
 
 ## \*slaps roof of server rack\* this bad boy can fit so much memes and generated images in it
 * Turn a photo with a face into an anime character with **-anime**.
