@@ -11,13 +11,13 @@
 * Have a cat look at your photo using **-readingcat**.
 * Broadcast your own news headline using **-news** with up to 3 arguments.
 * Turn into an Alien with **-alien**.
-* And so much more, with 60+ commands and growing this bot is sure to leave it's mark in your server.
+* And much more, with over 60+ commands and growing.
 
 ### Offensive Commands Automatically Locked
 Worried about possible offensive commands? These are locked behind one of the several small configuration settings which are very easy to set. Commands which can be considered offensive require the `All Commands` setting to be turned `on`.
 
 ### Chaining
-The bot remembers pictures previously posted in a text channel, allowing you and friends to re-use pictures posted by the bot, another person and even another bot for easy re-use without having to copy a link or save an image.
+The bot remembers pictures previously posted in a text channel, allowing you and friends to re-use pictures posted by the bot, another person and even another bot without having to copy a link or save an image.
 
 ### Mobile Data Friendly
-Worried about your users on mobile data draining their data plan due to the possible size of the images? The bot compresses images with little visible compression, allowing for fast processing and chaining of commands.
+Worried about your mobile data plan draining due to the possible size of the (possible flood of) images? The bot compresses images with little visible compression before sending.
