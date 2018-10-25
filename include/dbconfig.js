@@ -25,7 +25,7 @@ module.exports =
     (this.connection).query('SELECT json FROM `settings` WHERE `guild` = ?', [guildId], (error, results) => {
       if (!error) {
         if (typeof results === 'undefined' || typeof v(results) === 'undefined' ) {
-          insertGuild(guildId);
+          this.insertGuild(guildId);
           console.log(`No configuration settings found for ${guildId}, making them on the go.`);
         } else {
           const s = v(results);
@@ -44,6 +44,19 @@ module.exports =
 
   getAllSettings: function (guildId) {
     return (typeof this.guildSettings[guildId] !== 'undefined') ? this.guildSettings[guildId] : this.defaultSettings;
+  },
+
+  insertGuild: function (guildId) {
+    this.guildSettings[guildId] = this.defaultSettings; // so we dont have to do fetch setting on the typing start event
+    (this.connection).query('INSERT INTO `settings` (`guild`, `json`) VALUES (?, ?)', [guildId, JSON.stringify(this.defaultSettings)], error => {
+      (error) ? console.error(error) : console.log(`Insert success for ${guildId}.`);
+    });
+  },
+
+  removeGuild: function (guildId) {
+    (this.connection).query('DELETE FROM `settings` WHERE `guild` = ?', [guildId], error => {
+      (error) ? console.error(error) : console.log(`Removal success for ${guildId}.`);
+    });
   },
 
   saveSettingForGuild: function (guildId) {
@@ -71,17 +84,4 @@ module.exports =
 // yeah, not sure myself either
 const v = function(value, index = 0) {
   return JSON.parse(JSON.stringify(value))[index];
-};
-
-const insertGuild = function (guildId) {
-  this.guildSettings[guildId] = this.defaultSettings; // so we dont have to do fetch setting on the typing start event
-  (this.connection).query('INSERT INTO `settings` (`guild`, `json`) VALUES (?, ?)', [guildId, JSON.stringify(this.defaultSettings)], error => {
-    (error) ? console.error(error): console.log(`Insert success for ${guildId}.`);
-  });
-};
-
-const removeGuild = function (guildId) {
-  (this.connection).query('DELETE FROM `settings` WHERE `guild` = ?', [guildId], error => {
-    (error) ? console.error(error): console.log(`Removal success for ${guildId}.`);
-  });
 };
