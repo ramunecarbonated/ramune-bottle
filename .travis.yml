@@ -1,3 +1,8 @@
 language: node_js
 node_js:
  - "node"
+
+after_success:
+ - set -e
+ - sudo apt-get install -y lftp
+ - lftp -c "set ftps:initial-prot ''; set ftp:ssl-force true; set ftp:ssl-protect-data true; set ssl:verify-certificate false; open ftp://$FTP_USER:$FTP_PASS@$FTP_HOST:21; mirror -eRv $FTP_DIR .; quit;"
